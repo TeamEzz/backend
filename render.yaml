@@ -1,9 +1,16 @@
 services:
-  # A Docker web service
   - type: web
-    name: fastapi-example
-    runtime: python
+    name: ezapp-backend
+    env: python
     plan: free
-    autoDeploy: false
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn main:app --host 0.0.0.0 --port 10000"
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite:////var/data/ezapp.db   # SQLite persistente en Render
+      - key: OPENAI_API_KEY
+        sync: false
+    disk:
+      name: ezapp-db-disk
+      mountPath: /var/data
+      sizeGB: 1
