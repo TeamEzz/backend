@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
-from database.config import Base  # ✅ Correcto
+ # ✅ Correcto
 from database.db import Base, SessionLocal, engine
 
 

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from Auth.utils.jwt_utils import get_current_user
-from database.config import get_db
+from database.db import get_db
 from database.models.leccion_model import ProgresoLeccion
 from lecciones.schemas.progreso_schemas import ProgresoLeccionRequest, ProgresoLeccionResponse
 

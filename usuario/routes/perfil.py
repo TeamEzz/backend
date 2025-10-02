@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from database.config import get_db
+from database.db import get_db
 from Auth.utils.jwt_utils import get_current_user
 from database.models.user_model import Usuario
 from usuario.schemas.schemas_perfil import UsuarioPerfilResponse

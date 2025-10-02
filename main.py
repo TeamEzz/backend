@@ -3,7 +3,7 @@ from Auth.routes import registro, login, login_google, protegida, nombre
 from encuesta.routes import encuesta_routes
 from fastapi.middleware.cors import CORSMiddleware
 from database.models.encuesta_model import RespuestaEncuestaDB
-from database.config import engine  # ✅
+from database.db import engine  # ✅
 from usuario.routes import perfil as perfil_routes
 from usuario.routes import editar as editar_routes
 from usuario.routes import foto as foto_routes
@@ -40,7 +40,7 @@ app.include_router(encuesta_routes.router)
 app.include_router(perfil_routes.router, prefix="/usuario", tags=["usuario"])
 app.include_router(editar_routes.router)
 app.include_router(foto_routes.router)
-app.mount("/static", StaticFiles(directory="static"), name="static")
+
 app.include_router(chat_routes.router, prefix="/chat", tags=["Chat"])
 app.include_router(gasto.router, prefix="/gasto", tags=["Gastos"])
 app.include_router(progreso_routes.router, prefix="/lecciones", tags=["Lecciones"])

@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String
-from database.config import Base  # asegúrate que Base esté definido en config.py
+  # asegúrate que Base esté definido en config.py
 from sqlalchemy.orm import relationship
 from database.db import Base, SessionLocal, engine
 
