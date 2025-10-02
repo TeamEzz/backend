@@ -1,1 +1,10 @@
 fastapi[all]
+uvicorn
+sqlalchemy
+python-dotenv
+pydantic
+email-validator
+openai
+python-jose
+passlib
+google-auth
