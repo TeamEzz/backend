@@ -1,8 +1,12 @@
-from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, ForeignKey, Index
 from sqlalchemy.orm import relationship
-
+from database.config import Base
 from datetime import datetime
-from database.db import Base, SessionLocal, engine
+
+__table_args__ = (
+    Index('ix_gasto_user_fecha', 'usuario_id', 'fecha'),
+    Index('ix_gasto_user_cat', 'usuario_id', 'categoria'),
+)
 
 class Gasto(Base):
     __tablename__ = "gastos"
@@ -12,6 +16,6 @@ class Gasto(Base):
     categoria = Column(String, nullable=False)  # Ej: "comida", "entretenimiento", etc.
     monto = Column(Float, nullable=False)
     es_necesario = Column(Boolean, default=False)
-    fecha = Column(DateTime, default=datetime.utcnow)
+    fecha = Column(DateTime, default=datetime)
 
     usuario = relationship("Usuario", back_populates="gastos")

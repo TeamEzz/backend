@@ -4,7 +4,7 @@ from Auth.schemas.schemas import UsuarioRegistroSimple, UsuarioConToken
 from Auth.utils.password_utils import hash_password
 from Auth.utils.jwt_utils import crear_token
 from database.models.user_model import Usuario
-from database.db import get_db
+from database.config import get_db
 
 router = APIRouter()
 

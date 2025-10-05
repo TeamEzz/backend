@@ -1,6 +1,5 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
- # ✅ Correcto
-from database.db import Base, SessionLocal, engine
+from database.config import Base  
 
 
 class RespuestaEncuestaDB(Base):

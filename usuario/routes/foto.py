@@ -1,7 +1,7 @@
 from fastapi import APIRouter, File, UploadFile, Depends, HTTPException
 from sqlalchemy.orm import Session
 from Auth.utils.jwt_utils import get_current_user
-from database.db import get_db
+from database.config import get_db
 from database.models.user_model import Usuario
 import os
 import uuid

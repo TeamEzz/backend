@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from Auth.schemas.schemas import UsuarioLogin
-from database.db import get_db
+from database.config import get_db
 from database.models.user_model import Usuario
 from Auth.utils.password_utils import verify_password
 from Auth.utils.jwt_utils import crear_token

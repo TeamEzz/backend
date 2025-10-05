@@ -1,10 +1,13 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from database.db import get_db
+from datetime import datetime, timezone
+
+from database.config import get_db
 from Auth.utils.jwt_utils import get_current_user
 from database.models.gasto_model import Gasto
+from database.models.user_model import Usuario            
+from streaks.utils.streak_utils import update_streak            
 from pydantic import BaseModel
-from datetime import datetime
 
 router = APIRouter()
 
@@ -15,9 +18,13 @@ class GastoRequest(BaseModel):
     fecha: datetime
 
 @router.post("/registrar")
-def registrar_gasto(data: GastoRequest, db: Session = Depends(get_db), usuario=Depends(get_current_user)):
+def registrar_gasto(
+    data: GastoRequest,
+    db: Session = Depends(get_db),
+    usuario: Usuario = Depends(get_current_user)         
+):
     nuevo_gasto = Gasto(
-        usuario_id=usuario.id,
+        usuario_id=usuario.id,                       
         categoria=data.categoria,
         monto=data.monto,
         es_necesario=data.es_necesario,
@@ -26,6 +33,11 @@ def registrar_gasto(data: GastoRequest, db: Session = Depends(get_db), usuario=D
     db.add(nuevo_gasto)
     db.commit()
     db.refresh(nuevo_gasto)
+
+    # ✅ actualiza la racha (usa date, no datetime)
+    hoy = datetime.now(timezone.utc).date()            
+    update_streak(db, usuario.id, hoy)
+
     return {"mensaje": "Gasto registrado correctamente"}
 
 @router.get("/resumen")

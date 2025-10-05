@@ -1,7 +1,6 @@
 from sqlalchemy import Column, Integer, String
-  # asegúrate que Base esté definido en config.py
+from database.config import Base  # asegúrate que Base esté definido en config.py
 from sqlalchemy.orm import relationship
-from database.db import Base, SessionLocal, engine
 
 
 class Usuario(Base):

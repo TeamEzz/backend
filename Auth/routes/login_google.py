@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Depends
 from Auth.utils.google_utils import verificar_token_google
 from Auth.utils.jwt_utils import crear_token  # ✅ Importar la función para generar el token
 from database.models.user_model import Usuario
-from database.db import get_db
+from database.config import get_db
 from sqlalchemy.orm import Session
 from Auth.schemas.schemas import TokenGoogle
 from database.models.encuesta_model import RespuestaEncuestaDB
