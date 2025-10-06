@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 
 
 from Auth.utils.jwt_utils import get_current_user
-from database.config import get_db
+from database.db import get_db
 from database.models.leccion_model import ProgresoLeccion
 from database.models.user_model import Usuario
 from lecciones.schemas.progreso_schemas import (

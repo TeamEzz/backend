@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from ..schemas import encuesta_schema
 from ..utils.encuesta_utils import procesar_respuestas
 from database.models.encuesta_model import RespuestaEncuestaDB
-from database.config import SessionLocal  
+from database.db import SessionLocal  
 
 router = APIRouter(prefix="/encuesta", tags=["Encuesta"])
 

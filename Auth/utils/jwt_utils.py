@@ -8,7 +8,7 @@ from jose import jwt, JWTError
 from jose.exceptions import ExpiredSignatureError
 from sqlalchemy.orm import Session
 
-from database.config import get_db
+from database.db import get_db
 from database.models.user_model import Usuario
 
 SECRET_KEY = os.getenv("SECRET_KEY", "tu_clave_secreta_super_segura")

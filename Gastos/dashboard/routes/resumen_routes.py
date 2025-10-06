@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 from Auth.utils.jwt_utils import get_current_user
-from database.config import get_db
+from database.db import get_db
 from Gastos.dashboard.schemas.resumen_schemas import ResumenResponse, PeriodoEnum
 from Gastos.dashboard.utils.resumen_service import rango_periodo, build_streak, build_gastos, build_lecciones
 
