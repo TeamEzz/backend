@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, ForeignKey, Index
 from sqlalchemy.orm import relationship
-from database.config import Base
+from database.db import Base
 from datetime import datetime
 
 __table_args__ = (

@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
-from database.config import Base  
+from database.db import Base  
 
 
 class RespuestaEncuestaDB(Base):

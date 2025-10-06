@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, Date, DateTime, String, ForeignKey, func
-from database.config import Base
+from database.db import Base
 
 class Streak(Base):
     __tablename__ = "streaks"

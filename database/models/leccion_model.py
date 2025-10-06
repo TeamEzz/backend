@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, Boolean, ForeignKey, Index
 from sqlalchemy.orm import relationship
-from database.config import Base
+from database.db import Base
 
 __table_args__ = (
     Index('ix_leccion_nivel', 'nivel'),
