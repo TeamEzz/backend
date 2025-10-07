@@ -3,7 +3,7 @@ from Auth.routes import registro, login, login_google, protegida, nombre
 from encuesta.routes import encuesta_routes
 from fastapi.middleware.cors import CORSMiddleware
 from database.models.encuesta_model import RespuestaEncuestaDB
-from database.db import engine  # ✅
+from database.db import engine, Base  # ✅
 from usuario.routes import perfil as perfil_routes
 from usuario.routes import editar as editar_routes
 from usuario.routes import foto as foto_routes
@@ -47,4 +47,4 @@ app.include_router(progreso_routes.router, prefix="/lecciones", tags=["Lecciones
 app.include_router(progreso_routes.router)
 
 
-RespuestaEncuestaDB.metadata.create_all(bind=engine)
+Base.metadata.create_all(bind=engine)
