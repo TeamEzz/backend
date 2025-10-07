@@ -6,6 +6,7 @@ pydantic
 email-validator
 openai
 python-jose
-passlib
+passlib==1.7.4
 google-auth
 requests
+bcrypt==4.1.2
