@@ -13,6 +13,7 @@ class Resultados(BaseModel):
     aprendizajes: List[str]
     respuesta_ia: Optional[str] = ""
     
+
 class RespuestaEncuesta(BaseModel):
-    usuario_id: int
     respuestas: List[str]
+    usuario_id: Optional[int] = None 
