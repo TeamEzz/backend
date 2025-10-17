@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from pathlib import Path
 
 from Auth.routes import registro, login, login_google, protegida, nombre
 from encuesta.routes import encuesta_routes
@@ -16,6 +17,10 @@ from database.db import engine, Base
 
 
 app = FastAPI()
+
+STATIC_DIR = Path("static")
+STATIC_DIR.mkdir(parents=True, exist_ok=True)
+(STATIC_DIR / "perfiles").mkdir(parents=True, exist_ok=True)
 
 
 @app.get("/")
@@ -42,7 +47,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 # Routers
 app.include_router(registro.router,      prefix="/auth",     tags=["Auth"])
@@ -60,4 +65,3 @@ app.include_router(chat_routes.router,   prefix="/chat",     tags=["Chat"])
 app.include_router(gasto.router,         prefix="/gasto",    tags=["Gastos"])
 app.include_router(dashboard_routes.router, prefix="/dashboard", tags=["Dashboard"])
 app.include_router(progreso_routes.router, prefix="/lecciones", tags=["Lecciones"])
-
