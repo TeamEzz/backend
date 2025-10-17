@@ -3,11 +3,9 @@ services:
     name: ezapp-backend
     env: python
     plan: free
-    buildCommand: pip install -r requirements.txt
-    # Alembic corre en la Release Phase en cada deploy
-    releaseCommand: alembic upgrade head
-    # La app arranca en el contenedor web
-    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn main:app --host 0.0.0.0 --port $PORT"
+    releaseCommand: "alembic upgrade head"
     envVars:
       - key: OPENAI_API_KEY
         sync: false
@@ -15,7 +13,6 @@ services:
         fromDatabase:
           name: ezapp-db
           property: connectionString
-    healthCheckPath: /
 
 databases:
   - name: ezapp-db
