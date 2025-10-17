@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, ConfigDict
 from typing import Optional
 
 class UsuarioRegistro(BaseModel):
@@ -20,8 +20,7 @@ class UsuarioRespuesta(BaseModel):
     nombre: Optional[str] = None
     email: EmailStr
 
-    class Config:
-        from_attributes = True  # Para Pydantic v2
+    model_config = ConfigDict(from_attributes=True)
         
         
         
@@ -34,7 +33,16 @@ class UsuarioConToken(BaseModel):
     email: str
     token: str
     nombre: Optional[str] = None
-    
-    
-    
-    
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class UsuarioLoginResponse(BaseModel):
+    id: int
+    email: EmailStr
+    token: str
+    nombre: Optional[str] = None
+    usuario: Optional[str] = None
+    encuesta_completada: bool = False
+
+    model_config = ConfigDict(from_attributes=True)

@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from datetime import datetime, timezone
+from typing import List
 
 from database.db import get_db
 from Auth.utils.jwt_utils import get_current_user
@@ -8,6 +9,7 @@ from database.models.gasto_model import Gasto
 from database.models.user_model import Usuario            
 from streaks.utils.streak_utils import update_streak            
 from pydantic import BaseModel
+from Gastos.schemas.gasto_schema import GastoOut
 
 router = APIRouter()
 
@@ -40,7 +42,6 @@ def registrar_gasto(
 
     return {"mensaje": "Gasto registrado correctamente"}
 
-@router.get("/resumen")
-def obtener_resumen_gastos(db: Session = Depends(get_db), usuario=Depends(get_current_user)):
-    gastos = db.query(Gasto).filter(Gasto.usuario_id == usuario.id).all()
-    return gastos
+@router.get("/resumen", response_model=List[GastoOut])
+def obtener_resumen_gastos(db: Session = Depends(get_db), usuario: Usuario = Depends(get_current_user)):
+    return db.query(Gasto).filter(Gasto.usuario_id == usuario.id).all()

@@ -4,12 +4,12 @@ from Auth.utils.jwt_utils import crear_token  # ✅ Importar la función para ge
 from database.models.user_model import Usuario
 from database.db import get_db
 from sqlalchemy.orm import Session
-from Auth.schemas.schemas import TokenGoogle
+from Auth.schemas.schemas import TokenGoogle, UsuarioLoginResponse
 from database.models.encuesta_model import RespuestaEncuestaDB
 
 router = APIRouter()
 
-@router.post("/login-google")
+@router.post("/login-google", response_model=UsuarioLoginResponse)
 def login_google(data: TokenGoogle, db: Session = Depends(get_db)):
     payload = verificar_token_google(data.token)
 
@@ -41,14 +41,11 @@ def login_google(data: TokenGoogle, db: Session = Depends(get_db)):
     # ✅ Crear token JWT como en el login tradicional
     token = crear_token({"sub": email, "id": usuario.id})
 
-    print("📦 Usuario ORM:", usuario.__dict__)
-    print("📤 Retornando datos manualmente para evitar error de serialización")
-
-    return {
-        "id": usuario.id,
-        "nombre": usuario.nombre,
-        "email": usuario.email,
-        "usuario": usuario.nombre_usuario,         # 👈 muy importante para decidir si ir a NombreView
-        "encuesta_completada": ya_tiene_encuesta,
-        "token": token                              # 👈 importante para peticiones autenticadas
-    }
+    return UsuarioLoginResponse(
+        id=usuario.id,
+        email=usuario.email,
+        nombre=usuario.nombre,
+        usuario=usuario.nombre_usuario,
+        token=token,
+        encuesta_completada=ya_tiene_encuesta,
+    )

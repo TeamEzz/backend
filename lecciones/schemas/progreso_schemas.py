@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 class ProgresoLeccionRequest(BaseModel):
     leccion_id: int
@@ -8,5 +8,4 @@ class ProgresoLeccionResponse(BaseModel):
     leccion_id: int
     completada: bool
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)

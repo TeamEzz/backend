@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from Auth.schemas.schemas import UsuarioLogin
+from Auth.schemas.schemas import UsuarioLogin, UsuarioLoginResponse
 from database.db import get_db
 from database.models.user_model import Usuario
 from Auth.utils.password_utils import verify_password
@@ -9,7 +9,7 @@ from database.models.encuesta_model import RespuestaEncuestaDB  # 👈 Asegúrat
 
 router = APIRouter()
 
-@router.post("/login")
+@router.post("/login", response_model=UsuarioLoginResponse)
 def login(usuario: UsuarioLogin, db: Session = Depends(get_db)):
     db_usuario = db.query(Usuario).filter(Usuario.email == usuario.email).first()
     if not db_usuario or not verify_password(usuario.password, db_usuario.hashed_password):
@@ -21,10 +21,11 @@ def login(usuario: UsuarioLogin, db: Session = Depends(get_db)):
     respuesta = db.query(RespuestaEncuestaDB).filter(RespuestaEncuestaDB.usuario_id == db_usuario.id).first()
     encuesta_completada = respuesta is not None
 
-    return {
-        "id": db_usuario.id,
-        "email": db_usuario.email,
-        "nombre": db_usuario.nombre,
-        "token": token,
-        "encuesta_completada": encuesta_completada
-    }
+    return UsuarioLoginResponse(
+        id=db_usuario.id,
+        email=db_usuario.email,
+        nombre=db_usuario.nombre,
+        usuario=db_usuario.nombre_usuario,
+        token=token,
+        encuesta_completada=encuesta_completada,
+    )

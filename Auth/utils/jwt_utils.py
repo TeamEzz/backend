@@ -10,6 +10,9 @@ from sqlalchemy.orm import Session
 
 from database.db import get_db
 from database.models.user_model import Usuario
+import logging
+
+logger = logging.getLogger(__name__)
 
 SECRET_KEY = os.getenv("SECRET_KEY", "tu_clave_secreta_super_segura")
 ALGORITHM = "HS256"
@@ -53,10 +56,17 @@ def get_current_user(
     print("🧾 ID del token:", user_id)
     print("📧 Email del token:", user_email)
 
-    user = db.query(Usuario).filter(Usuario.id == user_id, Usuario.email == user_email).first()
+    user = db.query(Usuario).filter(Usuario.id == user_id).first()
     if user is None:
         print("❌ Usuario no encontrado en base de datos")
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
+
+    if user.email != user_email:
+        logger.info(
+            "El email almacenado (%s) no coincide con el presente en el token (%s)",
+            user.email,
+            user_email,
+        )
 
     print("✅ Usuario autenticado:", user)
     return user

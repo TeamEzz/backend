@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta, timezone, date
-from sqlalchemy import func, case
+from sqlalchemy import func
 from database.models.gasto_model import Gasto
 from database.models.streak_model import Streak
 from database.models.leccion_model import ProgresoLeccion 
@@ -28,8 +28,13 @@ def build_streak(db, user_id: int):
     s = db.query(Streak).filter_by(usuario_id=user_id).first()
     if not s:
         return {"actual": 0, "maxima": 0, "hoy_contada": False}
-    hoy_contada = (s.fecha_ultima_actividad == datetime.now().date())
-    return {"actual": s.racha_actual, "maxima": s.racha_maxima, "hoy_contada": hoy_contada}
+    today = datetime.now(timezone.utc).date()
+    hoy_contada = (s.last_event_date == today)
+    return {
+        "actual": s.current_streak,
+        "maxima": s.longest_streak,
+        "hoy_contada": hoy_contada,
+    }
 
 def build_gastos(db, user_id: int, inicio: date, fin: date, periodo: str):
     q = db.query(func.coalesce(func.sum(Gasto.monto), 0.0))\
@@ -70,14 +75,17 @@ def build_gastos(db, user_id: int, inicio: date, fin: date, periodo: str):
     }
 
 def build_lecciones(db, user_id: int, nivel: int):
-    # Asumiendo que ya tienes tabla Leccion con campo nivel
-    total = db.query(func.count(ProgresoLeccion.id)).filter(ProgresoLeccion.nivel == nivel).scalar() or 0
-    completas = db.query(func.count(ProgresoLeccion.id))\
-        .join(ProgresoLeccion, ProgresoLeccion.id == ProgresoLeccion.leccion_id)\
-        .filter(ProgresoLeccion.usuario_id == user_id,
-                ProgresoLeccion.completada == True,
-                ProgresoLeccion.nivel == nivel).scalar() or 0
-    return {"nivel": nivel, "completadas": int(completas), "total": int(total)}
+    # ProgresoLeccion no tiene campo nivel en el modelo actual; devolvemos totales del usuario.
+    total = db.query(func.count(ProgresoLeccion.id))\
+        .filter(ProgresoLeccion.usuario_id == user_id).scalar() or 0
+
+    completadas = db.query(func.count(ProgresoLeccion.id))\
+        .filter(
+            ProgresoLeccion.usuario_id == user_id,
+            ProgresoLeccion.completada.is_(True),
+        ).scalar() or 0
+
+    return {"nivel": nivel, "completadas": int(completadas), "total": int(total)}
 
 def build_insights(gastos_total: float, gastos_semana_promedio: float = None):
     insights = []
