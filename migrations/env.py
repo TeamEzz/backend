@@ -18,7 +18,13 @@ sys.path.append(str(BASE_DIR))
 # Importa Base y (MUY IMPORTANTE) registra los modelos para autogenerate
 from database.db import Base  # contiene Base = declarative_base()
 # importa módulos que definen tablas (no hace falta usarlos, solo importarlos)
-from database.models import user_model, encuesta_model  # añade aquí los demás: gasto_model, leccion_model, etc.
+from database.models import (
+    user_model,
+    encuesta_model,
+    gasto_model,
+    leccion_model,
+    streak_model,
+)
 
 target_metadata = Base.metadata
 
