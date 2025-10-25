@@ -9,14 +9,40 @@ if not OPENAI_API_KEY:
 
 client = OpenAI(api_key=OPENAI_API_KEY)
 
-system_message = prompts.system_message
+role = prompts.system_message
+
+MODEL = "gpt-5"
+
+history = []
+history.append({"role": "system", "content": role})
+
+def obtener_respuesta_ia(user_message):
+    
+    try:
+        agregar_mensaje_usuario(user_message)
+        response = client.chat.completions.create(
+            model=MODEL,
+            messages=history
+        )
+        agregar_mensaje_IA(response.choices[0].message.content)
+        return response.choices[0].message.content
+    except Exception as e:
+        return f"Error, algo no salio bien: {str(e)}"
+
+def agregar_mensaje_IA(mensaje:dict):
+    mensaje_agregar = {"role": "assistant", "content":mensaje}
+    history.append(mensaje_agregar)
+    
+def agregar_mensaje_usuario(mensaje:dict):
+    mensaje_agregar = {"role": "user", "content":mensaje}
+    history.append(mensaje_agregar)
 
 def obtener_respuesta_ia(mensaje_usuario: str) -> str:
-    resp = client.chat.completions.create(
+    response = client.chat.completions.create(
         model="gpt-4",
         messages=[
-            {"role": "system", "content": system_message},
-            {"role": "user", "content": mensaje_usuario},
-        ],
+            {"role": "system", "content": role},
+            {"role": "user", "content": mensaje_usuario}
+        ]
     )
-    return (resp.choices[0].message.content or "").strip()
+    return response.choices[0].message.content.strip()
