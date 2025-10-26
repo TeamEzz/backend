@@ -8,7 +8,7 @@ from chat.openai_call import obtener_respuesta_ia
 
 load_dotenv()
 
-router = APIRouter(prefix="/chat", tags=["Chat"])
+router = APIRouter()
 
 # ----- Esquemas de entrada/salida -----
 class MensajeRequest(BaseModel):
