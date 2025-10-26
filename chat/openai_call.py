@@ -2,7 +2,7 @@
 import os
 from openai import OpenAI
 from . import prompts
-from utils import openai_utils as utils
+from chat.utils import openai_utils as utils
 
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
