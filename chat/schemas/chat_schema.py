@@ -1,28 +1,25 @@
 from pydantic import BaseModel
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Text
-from sqlalchemy.orm import relationship
 from datetime import datetime
- # o como tengas tu declarative_base()
+from typing import List, Optional
 
-class Conversacion(BaseModel):
-    __tablename__ = "conversaciones"
+# 🔹 Esquema de mensaje (para entrada/salida)
+class MensajeSchema(BaseModel):
+    id: Optional[int] = None
+    remitente: str
+    contenido: str
+    timestamp: Optional[datetime] = None
 
-    id = Column(Integer, primary_key=True, index=True)
-    usuario_id = Column(Integer, ForeignKey("usuarios.id"))
-    titulo = Column(String, nullable=True)
-    fecha_creacion = Column(DateTime, default=datetime.utcnow)
-    fecha_ultima_actualizacion = Column(DateTime, default=datetime.utcnow)
+    class Config:
+        orm_mode = True  # permite convertir desde objetos SQLAlchemy
 
-    mensajes = relationship("Mensaje", back_populates="conversacion", cascade="all, delete-orphan")
+# 🔹 Esquema de conversación
+class ConversacionSchema(BaseModel):
+    id: Optional[int] = None
+    usuario_id: int
+    titulo: Optional[str] = None
+    fecha_creacion: Optional[datetime] = None
+    fecha_ultima_actualizacion: Optional[datetime] = None
+    mensajes: List[MensajeSchema] = []
 
-
-class Mensaje(BaseModel):
-    __tablename__ = "mensajes"
-
-    id = Column(Integer, primary_key=True, index=True)
-    conversacion_id = Column(Integer, ForeignKey("conversaciones.id"))
-    remitente = Column(String)  # "usuario" o "IA"
-    contenido = Column(Text)
-    timestamp = Column(DateTime, default=datetime.utcnow)
-
-    conversacion = relationship("Conversacion", back_populates="mensajes")
+    class Config:
+        orm_mode = True

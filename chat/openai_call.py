@@ -11,7 +11,7 @@ if not OPENAI_API_KEY:
 
 client = OpenAI(api_key=OPENAI_API_KEY)
 
-role = prompts.system_message
+ROLE = prompts.system_message
 
 MODEL = "gpt-5"
 
@@ -19,8 +19,10 @@ def obtener_respuesta_ia(user_message, db, usuario_id, conversacion_id=None):
     conversacion = utils.obtener_o_crear_conversacion(db, usuario_id,conversacion_id)
     historial = utils.obtener_historial_conversacion(db, conversacion.id)# que le pongo en db session
     if len(historial) == 0:
-        historial.append({"role": "system", "content": role})
-    
+        historial.append({"role": "system", "content": ROLE})
+        
+    historial.append({"role": "user", "content": user_message})
+
     try:
 
         response = client.chat.completions.create(
@@ -31,7 +33,7 @@ def obtener_respuesta_ia(user_message, db, usuario_id, conversacion_id=None):
 
         utils.guardar_mensajes(db, conversacion.id, user_message, respuesta_texto)
         
-        return respuesta_texto
+        return respuesta_texto, conversacion.id
 
     except Exception as e:
         return f"Error, algo no salio bien: {str(e)}"

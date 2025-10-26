@@ -1,6 +1,6 @@
 from datetime import datetime
 from sqlalchemy.orm import Session
-from ..schemas.chat_schema import Conversacion, Mensaje
+from ..models.chat_model import Conversacion, Mensaje
 
 def obtener_o_crear_conversacion(db: Session, usuario_id: int, conversacion_id: int | None):
     if conversacion_id:
