@@ -13,30 +13,35 @@ client = OpenAI(api_key=OPENAI_API_KEY)
 
 ROLE = prompts.system_message
 
-MODEL = "gpt-5"
+MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
 
 def obtener_respuesta_ia(user_message, db, usuario_id, conversacion_id=None):
-    conversacion = utils.obtener_o_crear_conversacion(db, usuario_id,conversacion_id)
-    historial = utils.obtener_historial_conversacion(db, conversacion.id)# que le pongo en db session
+    conversacion = utils.obtener_o_crear_conversacion(db, usuario_id, conversacion_id)
+    # Si es nueva, sugiere título por el primer mensaje
+    if not conversacion.titulo:
+        titulo_sugerido = user_message.strip().replace("\n", " ")[:60]
+        try:
+            conversacion.titulo = titulo_sugerido or "Nueva conversación"
+            db.commit()
+            db.refresh(conversacion)
+        except Exception:
+            db.rollback()
+    historial = utils.obtener_historial_conversacion(db, conversacion.id)
     if len(historial) == 0:
         historial.append({"role": "system", "content": ROLE})
-        
+
     historial.append({"role": "user", "content": user_message})
 
     try:
-
-        response = client.chat.completions.create(
-            model=MODEL,
-            messages=historial
-        )
+        response = client.chat.completions.create(model=MODEL, messages=historial)
         respuesta_texto = response.choices[0].message.content.strip()
 
         utils.guardar_mensajes(db, conversacion.id, user_message, respuesta_texto)
-        
-        return respuesta_texto, conversacion.id
 
+        return respuesta_texto, conversacion.id
     except Exception as e:
-        return f"Error, algo no salio bien: {str(e)}"
+        # Propaga el error para que lo maneje el router y devuelva 500 controlado
+        raise
     
 
 def agregar_mensaje_IA(mensaje, historial: list):
