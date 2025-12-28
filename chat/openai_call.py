@@ -15,6 +15,27 @@ ROLE = prompts.system_message
 
 MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
 
+def _get_env_float(name: str, default: float) -> float:
+    value = os.getenv(name)
+    if value is None:
+        return default
+    try:
+        return float(value)
+    except ValueError:
+        return default
+
+def _get_env_int(name: str, default: int) -> int:
+    value = os.getenv(name)
+    if value is None:
+        return default
+    try:
+        return int(value)
+    except ValueError:
+        return default
+
+TEMPERATURE = _get_env_float("OPENAI_TEMPERATURE", 0.4)
+MAX_TOKENS = _get_env_int("OPENAI_MAX_TOKENS", 400)
+
 def obtener_respuesta_ia(user_message, db, usuario_id, conversacion_id=None):
     conversacion = utils.obtener_o_crear_conversacion(db, usuario_id, conversacion_id)
     # Si es nueva, sugiere título por el primer mensaje
@@ -27,13 +48,18 @@ def obtener_respuesta_ia(user_message, db, usuario_id, conversacion_id=None):
         except Exception:
             db.rollback()
     historial = utils.obtener_historial_conversacion(db, conversacion.id)
-    if len(historial) == 0:
-        historial.append({"role": "system", "content": ROLE})
+    if not any(m.get("role") == "system" for m in historial):
+        historial.insert(0, {"role": "system", "content": ROLE})
 
     historial.append({"role": "user", "content": user_message})
 
     try:
-        response = client.chat.completions.create(model=MODEL, messages=historial)
+        response = client.chat.completions.create(
+            model=MODEL,
+            messages=historial,
+            temperature=TEMPERATURE,
+            max_tokens=MAX_TOKENS,
+        )
         respuesta_texto = response.choices[0].message.content.strip()
 
         utils.guardar_mensajes(db, conversacion.id, user_message, respuesta_texto)
