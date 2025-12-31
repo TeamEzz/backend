@@ -2,17 +2,19 @@
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
+from dotenv import load_dotenv
+load_dotenv()
 
-# Puedes seguir importando desde tu config si lo prefieres
-# from database.config import DATABASE_URL as RAW_DATABASE_URL
-RAW_DATABASE_URL = os.getenv("DATABASE_URL", "")
+DATABASE_URL = os.getenv("DATABASE_URL")
 
-if not RAW_DATABASE_URL:
+if not DATABASE_URL:
     raise RuntimeError("DATABASE_URL no está definido")
+
+
 
 # Normaliza a dialecto SQLAlchemy + psycopg3
 # Render a veces entrega 'postgres://', SQLAlchemy espera 'postgresql+psycopg://'
-url = RAW_DATABASE_URL
+url = DATABASE_URL
 if url.startswith("postgres://"):
     url = url.replace("postgres://", "postgresql+psycopg://", 1)
 elif url.startswith("postgresql://"):
