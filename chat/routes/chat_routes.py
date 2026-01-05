@@ -41,7 +41,7 @@ def enviar_mensaje(
     guarda la conversación y devuelve la respuesta junto con el conversacion_id.
     """
     try:
-        if payload.usuario_id is not None and payload.usuario_id != usuario_actual.id:
+        if payload.usuario_id not in (None, 0) and payload.usuario_id != usuario_actual.id:
             raise HTTPException(status_code=403, detail="usuario_id no coincide con el token")
         if payload.conversacion_id is not None:
             conv = (
@@ -81,7 +81,7 @@ def listar_conversaciones(
     usuario_actual: Usuario = Depends(get_current_user),
 ):
     try:
-        if usuario_id is not None and usuario_id != usuario_actual.id:
+        if usuario_id not in (None, 0) and usuario_id != usuario_actual.id:
             raise HTTPException(status_code=403, detail="usuario_id no coincide con el token")
         convs = listar_conversaciones_usuario(db, usuario_actual.id)
         return [
