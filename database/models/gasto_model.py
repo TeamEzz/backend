@@ -19,3 +19,7 @@ class Gasto(Base):
     fecha = Column(DateTime, default=datetime)
 
     usuario = relationship("Usuario", back_populates="gastos")
+
+    @property
+    def tipo(self) -> str:
+        return "necesario" if self.es_necesario else "no_necesario"
