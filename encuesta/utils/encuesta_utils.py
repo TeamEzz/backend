@@ -1,4 +1,4 @@
-from typing import List
+from typing import Any, Dict, List
 from pydantic import BaseModel
 
 
@@ -110,4 +110,86 @@ def procesar_respuestas(respuestas: List[str]) -> Resultados:
         objetivo=objetivo,
         aprendizajes=sorted(aprendizajes),
         respuesta_ia=""  # pendiente implementar
+    )
+
+
+def procesar_respuestas_dict(respuestas: Dict[str, Any]) -> Resultados:
+    """Procesa las respuestas de Encuesta2, enviadas como diccionario con claves preg_N."""
+    aprendizajes: set = set()
+
+    # Nivel de conocimiento (preg_2) — misma escala que el frontend (Encuesta2ViewModel)
+    preg2 = respuestas.get("preg_2", "")
+    if preg2.startswith("A)"):
+        nivel = "Principiante"
+    elif preg2.startswith("B)"):
+        nivel = "Básico"
+    elif preg2.startswith("C)"):
+        nivel = "Intermedio"
+    elif preg2.startswith("D)") or preg2.startswith("E)"):
+        nivel = "Avanzado"
+    else:
+        nivel = "Principiante"
+
+    # Perfil de riesgo (preg_6)
+    preg6 = respuestas.get("preg_6", "")
+    if preg6.startswith("A)"):
+        riesgo = "Conservador"
+    elif preg6.startswith("B)") or preg6.startswith("C)"):
+        riesgo = "Moderado"
+    elif preg6.startswith("D)"):
+        riesgo = "Arriesgado"
+    else:
+        riesgo = "Conservador"
+
+    # Objetivo principal (preg_1)
+    preg1 = respuestas.get("preg_1", "")
+    if preg1.startswith("A)"):
+        objetivo = "Ahorrar sin perder valor"
+    elif preg1.startswith("B)"):
+        objetivo = "Salir de deudas"
+    elif preg1.startswith("C)"):
+        objetivo = "Invertir para el futuro"
+    elif preg1.startswith("D)"):
+        objetivo = "Generar ingresos pasivos"
+    elif preg1.startswith("E)"):
+        objetivo = "Proteger mi estabilidad financiera"
+    else:
+        objetivo = "Explorar opciones financieras"
+
+    # Aprendizajes (preg_3, puede ser "A)||B)")
+    preg3 = respuestas.get("preg_3", "")
+    if "A)" in preg3:
+        aprendizajes.add("Gestionar tu dinero")
+    if "B)" in preg3:
+        aprendizajes.add("Iniciar en las inversiones")
+    if "C)" in preg3:
+        aprendizajes.add("Invertir estratégicamente")
+    if "D)" in preg3:
+        aprendizajes.add("Proteger tus ahorros")
+    if "E)" in preg3:
+        aprendizajes.add("Construir hábitos financieros")
+
+    # Complementos por nivel
+    if nivel == "Principiante":
+        aprendizajes.add("Primeros pasos financieros")
+        aprendizajes.add("Ahorrar de manera eficiente")
+    elif nivel == "Básico":
+        aprendizajes.add("Establecer metas claras")
+
+    # Complementos por perfil de riesgo
+    if riesgo == "Conservador":
+        aprendizajes.add("Evitar deudas")
+    elif riesgo == "Arriesgado":
+        aprendizajes.add("Superar el miedo a invertir")
+
+    # Complemento por objetivo
+    if "deudas" in objetivo.lower():
+        aprendizajes.add("Salir de deudas")
+
+    return Resultados(
+        nivel_conocimiento=nivel,
+        perfil_riesgo=riesgo,
+        objetivo=objetivo,
+        aprendizajes=sorted(aprendizajes)[:6],
+        respuesta_ia=""
     )

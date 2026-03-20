@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 # ✅ Respuesta que el backend le devuelve a la app
 class Resultados(BaseModel):
@@ -10,7 +10,10 @@ class Resultados(BaseModel):
     respuesta_ia: Optional[str] = ""
 
 
-# ✅ Entrada que recibe el backend desde la app
+# ✅ Entrada que recibe el backend desde la app.
+# Acepta dos formatos:
+#   - List[str]: encuesta original (13 respuestas posicionales)
+#   - Dict[str, Any]: Encuesta2 (respuestas con claves preg_1, preg_2, …)
 class RespuestaEncuesta(BaseModel):
-    respuestas: List[str]
+    respuestas: Union[List[str], Dict[str, Any]]
     usuario_id: Optional[int] = None
