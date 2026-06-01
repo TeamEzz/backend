@@ -53,6 +53,7 @@ EZ-APP/
 ├── encuesta/            # Onboarding survey
 ├── chat/                # Chat con OpenAI
 ├── streaks/             # Tracking de racha diaria
+├── metas/               # Plan de presupuesto (cálculo + persistencia de metas)
 └── migrations/          # Alembic versions
 ```
 
@@ -67,6 +68,7 @@ EZ-APP/
 | `conversaciones` | Conversaciones de chat | id, usuario_id, titulo, fechas |
 | `mensajes` | Mensajes de chat | id, conversacion_id, rol, contenido |
 | `streaks` | Racha diaria | usuario_id, última actividad, contador |
+| `metas_usuario` | Plan de presupuesto guardado | id, usuario_id, meta_titulo, meta_tag, es_custom, es_primaria, horizonte_meses, ingreso_mensual, gastos_mensuales, costo_meta, ahorro_requerido, pct_ingreso, viabilidad, instrumento, mensaje_toro, otras_metas_json, creado_en |
 
 ## Todos los endpoints
 
@@ -115,6 +117,17 @@ EZ-APP/
 | POST | `/chat/mensaje` | `{contenido, conversacion_id?}` | `{respuesta, conversacion_id}` |
 | GET | `/chat/conversaciones` | — | lista de conversaciones |
 | GET | `/chat/conversaciones/{id}/mensajes` | — | lista de mensajes |
+
+### Metas (`/metas`)
+| Método | Path | Body / Params | Respuesta |
+|--------|------|---------------|-----------|
+| GET | `/metas/contexto-financiero` | — | `{ingreso_estimado?, ingreso_rango?, personaje?}` derivado de la encuesta |
+| POST | `/metas/plan` | `{meta_titulo, meta_tag?, es_custom, horizonte_meses, ingreso_mensual, gastos_mensuales, costo_meta, es_primaria, otras_metas[]}` | `BudgetResultOut` (viabilidad, instrumento, ahorro_requerido, pct_ingreso, mensaje_toro, …) |
+
+El cálculo vive en `metas/utils/meta_calculator.py` (**fuente de verdad**; debe coincidir con el
+frontend `BudgetCalculator.swift`). El `mensaje_toro` son plantillas estáticas por viabilidad, **sin
+OpenAI**. `/metas/contexto-financiero` prioriza el `personaje` de Encuesta2 (Bula/Toriel/EZ → punto
+medio del rango de ingreso) con fallback a Preg9 (encuesta original, lista índice 8).
 
 ### Health
 | Método | Path |
