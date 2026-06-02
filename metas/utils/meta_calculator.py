@@ -58,7 +58,13 @@ def calcular(
     costo_meta: float,
 ) -> Dict[str, Any]:
     meses = max(1, int(horizonte_meses))
-    costo = costo_meta_por_tag(meta_tag, ingreso_mensual, costo_meta)
+    # El usuario ahora siempre ingresa el costo (GoalCostView); úsalo cuando sea > 0.
+    # El estimado por tag queda solo como fallback de seguridad.
+    costo = (
+        float(costo_meta)
+        if costo_meta and costo_meta > 0
+        else costo_meta_por_tag(meta_tag, ingreso_mensual, costo_meta)
+    )
     ahorro_mes = costo / meses
     pct = (ahorro_mes / ingreso_mensual) if ingreso_mensual > 0 else 1.0
     disponible = max(ingreso_mensual - gastos_mensuales, 1.0)
