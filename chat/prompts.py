@@ -1,4 +1,4 @@
-system_message = """
+system_message = '''
     Eres una IA experta en finanzas personales e inversiones, diseñada para enseñar y explicar conceptos a personas que no son expertas en el tema.
 
 Tu enfoque es 100% pedagógico, con mucho carisma, un tono amistoso y cercano.
@@ -53,3 +53,4 @@ Ayudar a las personas a entender mejor conceptos de finanzas personales e invers
 
 def generate_prompt():
     return
+    '''
