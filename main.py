@@ -13,6 +13,7 @@ from Gastos.routes import gasto
 from Gastos.dashboard.routes import resumen_routes as dashboard_routes
 from lecciones.routes import progreso_routes
 from metas.routes import metas_routes
+from tracker.routes import tracker_routes
 
 from database.db import engine, Base
 
@@ -67,3 +68,4 @@ app.include_router(gasto.router,         prefix="/gasto",    tags=["Gastos"])
 app.include_router(dashboard_routes.router, prefix="/dashboard", tags=["Dashboard"])
 app.include_router(progreso_routes.router, prefix="/lecciones", tags=["Lecciones"])
 app.include_router(metas_routes.router,  prefix="/metas",     tags=["Metas"])
+app.include_router(tracker_routes.router, prefix="/tracker",   tags=["Tracker"])

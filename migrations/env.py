@@ -27,6 +27,7 @@ from database.models import (
     leccion_model,
     streak_model,
     meta_model,
+    checkin_model,
 )
 # Importa modelos de chat para que Alembic los conozca en autogenerate
 from chat.models import chat_model  # noqa: F401

@@ -31,6 +31,9 @@ class MetaUsuario(Base):
     # Otros sueños no priorizados (JSON: lista de títulos)
     otras_metas_json = Column(Text, nullable=True)
 
+    # Día del mes elegido para el check-in mensual del Budget Tracker (1–28). NULL = sin configurar.
+    dia_checkin = Column(Integer, nullable=True)
+
     creado_en = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
 
     usuario = relationship("Usuario")
