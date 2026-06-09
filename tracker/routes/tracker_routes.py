@@ -186,10 +186,20 @@ def eliminar_plan(
     db: Session = Depends(get_db),
     usuario: Usuario = Depends(get_current_user),
 ):
-    """Elimina el plan activo del usuario y TODOS sus check-ins asociados."""
-    meta = _plan_activo(db, usuario.id)
+    """Elimina el presupuesto del usuario: TODOS sus planes (metas_usuario) y
+    TODOS sus check-ins. Como cada 'Empezar mi plan' inserta una fila nueva, un
+    usuario puede acumular varias; borrarlas todas garantiza que tras el DELETE
+    `GET /tracker` devuelva 404 y no resucite un plan viejo.
+    """
+    existe = (
+        db.query(MetaUsuario.id)
+        .filter(MetaUsuario.usuario_id == usuario.id)
+        .first()
+    )
+    if existe is None:
+        raise HTTPException(status_code=404, detail="No tienes un plan de presupuesto activo")
 
-    db.query(CheckIn).filter(CheckIn.meta_id == meta.id).delete(synchronize_session=False)
-    db.delete(meta)
+    db.query(CheckIn).filter(CheckIn.usuario_id == usuario.id).delete(synchronize_session=False)
+    db.query(MetaUsuario).filter(MetaUsuario.usuario_id == usuario.id).delete(synchronize_session=False)
     db.commit()
     return Response(status_code=204)
