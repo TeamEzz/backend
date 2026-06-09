@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Response
 from sqlalchemy.orm import Session
 
 from database.db import get_db
@@ -179,3 +179,17 @@ def actualizar_plan(
     db.commit()
     db.refresh(meta)
     return _tracker_data(db, meta)
+
+
+@router.delete("/plan", status_code=204)
+def eliminar_plan(
+    db: Session = Depends(get_db),
+    usuario: Usuario = Depends(get_current_user),
+):
+    """Elimina el plan activo del usuario y TODOS sus check-ins asociados."""
+    meta = _plan_activo(db, usuario.id)
+
+    db.query(CheckIn).filter(CheckIn.meta_id == meta.id).delete(synchronize_session=False)
+    db.delete(meta)
+    db.commit()
+    return Response(status_code=204)
