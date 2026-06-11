@@ -11,6 +11,12 @@ class NombreUsuarioRequest(BaseModel):
     nombre: str
     usuario: str
 
+@router.get("/check-usuario")
+def check_usuario_disponible(usuario: str, db: Session = Depends(get_db)):
+    existente = db.query(Usuario).filter(Usuario.nombre_usuario == usuario).first()
+    return {"disponible": existente is None}
+
+
 @router.post("/perfil")
 def guardar_nombre_y_usuario(datos: NombreUsuarioRequest, db: Session = Depends(get_db), usuario_actual: Usuario = Depends(get_current_user)):
     # Verificar si el nombre de usuario ya existe y no es el suyo
