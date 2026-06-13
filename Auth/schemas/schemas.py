@@ -37,6 +37,23 @@ class UsuarioConToken(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
+# --- Verificación de correo ---
+
+class RegistroPendienteResponse(BaseModel):
+    email: EmailStr
+    requiere_verificacion: bool = True
+    mensaje: str
+
+
+class VerificacionRequest(BaseModel):
+    email: EmailStr
+    codigo: str
+
+
+class ReenviarCodigoRequest(BaseModel):
+    email: EmailStr
+
+
 class UsuarioLoginResponse(BaseModel):
     id: int
     email: EmailStr

@@ -29,7 +29,8 @@ def login_google(data: TokenGoogle, db: Session = Depends(get_db)):
             nombre=nombre,
             email=email,
             hashed_password="",  # No hay contraseña
-            proveedor="google"
+            proveedor="google",
+            verificado=True,  # el correo lo verifica Google
         )
         db.add(usuario)
         db.commit()

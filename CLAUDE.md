@@ -18,6 +18,8 @@ FastAPI + PostgreSQL. Desplegado en Render. Ver `../CLAUDE.md` para la integraci
 DATABASE_URL=postgresql+psycopg://...
 SECRET_KEY=...
 OPENAI_API_KEY=...
+RESEND_API_KEY=...                 # API key de Resend (envío de códigos de verificación)
+EMAIL_FROM=onboarding@ezapp.tech   # remitente verificado en Resend
 ```
 
 `DATABASE_URL` se auto-normaliza de `postgres://` a `postgresql+psycopg://` en `database/config.py`.
@@ -61,7 +63,7 @@ EZ-APP/
 
 | Tabla | Descripción | Columnas clave |
 |-------|-------------|----------------|
-| `usuarios` | Usuarios del sistema | id, nombre, nombre_usuario (unique), email (unique), hashed_password, proveedor, foto_perfil |
+| `usuarios` | Usuarios del sistema | id, nombre, nombre_usuario (unique), email (unique), hashed_password, proveedor, foto_perfil, verificado, codigo_verificacion (hash), codigo_expira_en, codigo_enviado_en, codigo_intentos |
 | `gastos` | Gastos registrados | id, usuario_id, categoria, monto, es_necesario, fecha |
 | `progreso_leccion` | Progreso por lección | id, usuario_id, leccion_id, completada |
 | `respuestas_encuesta` | Respuestas onboarding | id, usuario_id (unique), respuestas_json |
@@ -75,11 +77,20 @@ EZ-APP/
 ### Auth (`/auth`)
 | Método | Path | Body / Params | Respuesta |
 |--------|------|---------------|-----------|
-| POST | `/auth/registro` | `{nombre, email, password}` | `{id, nombre, email, token}` |
-| POST | `/auth/login` | `{email, password}` | `{id, nombre, email, token, encuesta_completada}` |
+| POST | `/auth/registro` | `{email, password}` | `{email, requiere_verificacion, mensaje}` (201, **sin token**) |
+| POST | `/auth/verificar` | `{email, codigo}` | `{id, nombre, email, token}` (emite la sesión) |
+| POST | `/auth/reenviar-codigo` | `{email}` | mensaje genérico (anti-enumeración) |
+| POST | `/auth/login` | `{email, password}` | `{id, nombre, email, token, encuesta_completada}` — **403 `correo_no_verificado`** si la cuenta local no ha verificado |
 | POST | `/auth/login-google` | `{token: google_id_token}` | `{id, nombre, email, usuario, encuesta_completada, token}` |
 | POST | `/auth/perfil` | `{nombre?, nombre_usuario?}` | confirmación |
 | GET | `/auth/protegida` | — | ejemplo de ruta protegida |
+
+**Verificación de correo (registro local):** `/registro` ya **no** devuelve token; crea el
+usuario con `verificado=false`, genera un código de 6 dígitos (hash bcrypt + expiración 10 min,
+máx. 5 intentos, cooldown de reenvío 60 s) y lo envía con `Auth/utils/email_utils.py` (API de
+Resend). El token se emite en `/verificar`. Las cuentas Google nacen `verificado=true`. ⚠️ Esto
+cambia el contrato con el frontend (antes recibía token en `/registro`): el cliente Swift debe
+consumir la pantalla de verificación y el 403 de login en una tarea coordinada aparte.
 
 ### Usuario (`/usuario`)
 | Método | Path | Body | Respuesta |

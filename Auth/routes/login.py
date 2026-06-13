@@ -15,6 +15,10 @@ def login(usuario: UsuarioLogin, db: Session = Depends(get_db)):
     if not db_usuario or not verify_password(usuario.password, db_usuario.hashed_password):
         raise HTTPException(status_code=401, detail="Credenciales incorrectas")
 
+    # Bloqueo hasta verificar el correo (solo cuentas locales; Google ya viene verificado).
+    if db_usuario.proveedor != "google" and not db_usuario.verificado:
+        raise HTTPException(status_code=403, detail="correo_no_verificado")
+
     token = crear_token({"sub": db_usuario.email, "id": db_usuario.id})
 
     # 👇 Comprobar si respondió la encuesta
