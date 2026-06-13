@@ -4,8 +4,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from Auth.schemas.schemas import (
-    VerificacionRequest,
-    ReenviarCodigoRequest,
+    RecuperacionRequest,
+    VerificarRecuperacionRequest,
     UsuarioConToken,
 )
 from Auth.utils.password_utils import hash_password, verify_password
@@ -30,14 +30,44 @@ def _as_utc(dt: datetime) -> datetime:
     return dt
 
 
-@router.post("/verificar", response_model=UsuarioConToken)
-def verificar_codigo(datos: VerificacionRequest, db: Session = Depends(get_db)):
+@router.post("/solicitar-recuperacion")
+def solicitar_recuperacion(datos: RecuperacionRequest, db: Session = Depends(get_db)):
+    mensaje_generico = {
+        "mensaje": "Si la cuenta existe, te enviamos un código para restablecer tu contraseña."
+    }
+
+    usuario = db.query(Usuario).filter(Usuario.email == datos.email).first()
+    # Solo cuentas locales verificadas. No revelamos existencia/proveedor (anti-enumeración).
+    if not usuario or not usuario.verificado or usuario.proveedor == "google":
+        return mensaje_generico
+
+    # Cooldown entre envíos (mismo que verificación).
+    if usuario.codigo_enviado_en:
+        transcurrido = (datetime.now(timezone.utc) - _as_utc(usuario.codigo_enviado_en)).total_seconds()
+        if transcurrido < REENVIO_COOLDOWN_SEGUNDOS:
+            espera = int(REENVIO_COOLDOWN_SEGUNDOS - transcurrido)
+            raise HTTPException(status_code=429, detail=f"Espera {espera}s antes de pedir otro código")
+
+    codigo = generar_codigo()
+    usuario.codigo_verificacion = hash_password(codigo)
+    usuario.codigo_expira_en = expiracion_codigo()
+    usuario.codigo_enviado_en = datetime.now(timezone.utc)
+    usuario.codigo_intentos = 0
+    db.commit()
+
+    try:
+        enviar_codigo(usuario.email, codigo, tipo="recuperacion")
+    except RuntimeError as exc:
+        raise HTTPException(status_code=502, detail=f"No se pudo enviar el correo de recuperación: {exc}")
+
+    return mensaje_generico
+
+
+@router.post("/verificar-recuperacion", response_model=UsuarioConToken)
+def verificar_recuperacion(datos: VerificarRecuperacionRequest, db: Session = Depends(get_db)):
     usuario = db.query(Usuario).filter(Usuario.email == datos.email).first()
     if not usuario:
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
-
-    if usuario.verificado:
-        raise HTTPException(status_code=400, detail="La cuenta ya está verificada")
 
     if not usuario.codigo_verificacion or not usuario.codigo_expira_en:
         raise HTTPException(status_code=400, detail="No hay un código pendiente. Solicita uno nuevo.")
@@ -53,8 +83,8 @@ def verificar_codigo(datos: VerificacionRequest, db: Session = Depends(get_db)):
         db.commit()
         raise HTTPException(status_code=400, detail="código incorrecto")
 
-    # Éxito: marca verificado, limpia el código y emite la sesión.
-    usuario.verificado = True
+    # Éxito: actualiza la contraseña, limpia el código y emite la sesión.
+    usuario.hashed_password = hash_password(datos.nueva_contrasena)
     usuario.codigo_verificacion = None
     usuario.codigo_expira_en = None
     usuario.codigo_enviado_en = None
@@ -69,34 +99,3 @@ def verificar_codigo(datos: VerificacionRequest, db: Session = Depends(get_db)):
         email=usuario.email,
         token=token,
     )
-
-
-@router.post("/reenviar-codigo")
-def reenviar_codigo(datos: ReenviarCodigoRequest, db: Session = Depends(get_db)):
-    mensaje_generico = {"mensaje": "Si la cuenta existe y está sin verificar, te enviamos un nuevo código."}
-
-    usuario = db.query(Usuario).filter(Usuario.email == datos.email).first()
-    # No revelamos si el correo existe o ya está verificado (anti-enumeración).
-    if not usuario or usuario.verificado:
-        return mensaje_generico
-
-    # Cooldown entre reenvíos.
-    if usuario.codigo_enviado_en:
-        transcurrido = (datetime.now(timezone.utc) - _as_utc(usuario.codigo_enviado_en)).total_seconds()
-        if transcurrido < REENVIO_COOLDOWN_SEGUNDOS:
-            espera = int(REENVIO_COOLDOWN_SEGUNDOS - transcurrido)
-            raise HTTPException(status_code=429, detail=f"Espera {espera}s antes de pedir otro código")
-
-    codigo = generar_codigo()
-    usuario.codigo_verificacion = hash_password(codigo)
-    usuario.codigo_expira_en = expiracion_codigo()
-    usuario.codigo_enviado_en = datetime.now(timezone.utc)
-    usuario.codigo_intentos = 0
-    db.commit()
-
-    try:
-        enviar_codigo(usuario.email, codigo, tipo="verificacion")
-    except RuntimeError as exc:
-        raise HTTPException(status_code=502, detail=f"No se pudo enviar el correo de verificación: {exc}")
-
-    return mensaje_generico

@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 
-from Auth.routes import registro, login, login_google, protegida, nombre, verificar
+from Auth.routes import registro, login, login_google, protegida, nombre, verificar, recuperacion
 from encuesta.routes import encuesta_routes
 from usuario.routes import perfil as perfil_routes
 from usuario.routes import editar as editar_routes
@@ -54,6 +54,7 @@ app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 # Routers
 app.include_router(registro.router,      prefix="/auth",     tags=["Auth"])
 app.include_router(verificar.router,     prefix="/auth",     tags=["Auth"])
+app.include_router(recuperacion.router,  prefix="/auth",     tags=["Auth"])
 app.include_router(login.router,         prefix="/auth",     tags=["Auth"])
 app.include_router(login_google.router,  prefix="/auth",     tags=["Auth"])
 app.include_router(protegida.router,     prefix="/auth",     tags=["Auth"])

@@ -7,7 +7,7 @@ from Auth.utils.password_utils import hash_password
 from Auth.utils.email_utils import (
     generar_codigo,
     expiracion_codigo,
-    enviar_codigo_verificacion,
+    enviar_codigo,
 )
 from database.models.user_model import Usuario
 from database.db import get_db
@@ -41,7 +41,7 @@ def registrar_usuario(usuario: UsuarioRegistroSimple, db: Session = Depends(get_
     db.refresh(nuevo_usuario)
 
     try:
-        enviar_codigo_verificacion(nuevo_usuario.email, codigo)
+        enviar_codigo(nuevo_usuario.email, codigo, tipo="verificacion")
     except RuntimeError as exc:
         raise HTTPException(status_code=502, detail=f"No se pudo enviar el correo de verificación: {exc}")
 

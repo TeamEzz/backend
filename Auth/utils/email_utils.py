@@ -2,7 +2,7 @@
 
 Usa la API HTTP de Resend mediante la dependencia `requests` ya presente en el proyecto
 (no requiere paquetes adicionales). Para cambiar de proveedor (SendGrid, Postmark, …) basta
-con reescribir `enviar_codigo_verificacion`.
+con reescribir `enviar_codigo`.
 
 Variables de entorno requeridas:
     RESEND_API_KEY   API key de Resend.
@@ -43,8 +43,23 @@ def _cuerpo_html(codigo: str) -> str:
     )
 
 
-def enviar_codigo_verificacion(email: str, codigo: str) -> None:
-    """Envía el código de verificación al correo indicado.
+def _cuerpo_recuperacion(codigo: str) -> str:
+    return (
+        f"<div style=\"font-family:-apple-system,Segoe UI,Roboto,sans-serif;\">"
+        f"<h2>Recupera tu contraseña de EZ</h2>"
+        f"<p>Recibimos una solicitud para restablecer tu contraseña. Tu código es:</p>"
+        f"<p style=\"font-size:32px;font-weight:800;letter-spacing:6px;\">{codigo}</p>"
+        f"<p>Caduca en {CODIGO_EXPIRA_MINUTOS} minutos. Si no solicitaste esto, ignora este correo.</p>"
+        f"</div>"
+    )
+
+
+def enviar_codigo(email: str, codigo: str, tipo: str) -> None:
+    """Envía un código de 6 dígitos al correo indicado.
+
+    `tipo` selecciona el asunto y el cuerpo:
+        "verificacion" → verificación de cuenta (registro).
+        "recuperacion" → restablecimiento de contraseña.
 
     Lanza RuntimeError si falta configuración o si el proveedor responde con error,
     para que la ruta que llama pueda devolver un 502 limpio.
@@ -53,6 +68,13 @@ def enviar_codigo_verificacion(email: str, codigo: str) -> None:
     remitente = os.getenv("EMAIL_FROM")
     if not api_key or not remitente:
         raise RuntimeError("Faltan RESEND_API_KEY o EMAIL_FROM en el entorno")
+
+    if tipo == "recuperacion":
+        subject = "Recupera tu contraseña de EZ"
+        html = _cuerpo_recuperacion(codigo)
+    else:
+        subject = "Tu código de verificación de EZ"
+        html = _cuerpo_html(codigo)
 
     try:
         resp = requests.post(
@@ -64,8 +86,8 @@ def enviar_codigo_verificacion(email: str, codigo: str) -> None:
             json={
                 "from": remitente,
                 "to": [email],
-                "subject": "Tu código de verificación de EZ",
-                "html": _cuerpo_html(codigo),
+                "subject": subject,
+                "html": html,
             },
             timeout=10,
         )

@@ -54,6 +54,18 @@ class ReenviarCodigoRequest(BaseModel):
     email: EmailStr
 
 
+# --- Recuperación de contraseña ---
+
+class RecuperacionRequest(BaseModel):
+    email: EmailStr
+
+
+class VerificarRecuperacionRequest(BaseModel):
+    email: EmailStr
+    codigo: str
+    nueva_contrasena: str
+
+
 class UsuarioLoginResponse(BaseModel):
     id: int
     email: EmailStr
