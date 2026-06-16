@@ -3,13 +3,13 @@ from sqlalchemy.orm import Session
 from database.db import get_db
 from database.models.user_model import Usuario
 from Auth.utils.jwt_utils import get_current_user
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 router = APIRouter()
 
 class NombreUsuarioRequest(BaseModel):
-    nombre: str
-    usuario: str
+    nombre: str = Field(max_length=50)
+    usuario: str = Field(max_length=50)
 
 @router.get("/check-usuario")
 def check_usuario_disponible(usuario: str, db: Session = Depends(get_db)):

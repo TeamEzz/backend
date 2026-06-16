@@ -1,6 +1,6 @@
 # chat/openai_call.py
 import os
-from openai import OpenAI
+from openai import AsyncOpenAI
 from . import prompts
 from chat.utils import openai_utils as utils
 
@@ -9,7 +9,7 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 if not OPENAI_API_KEY:
     raise RuntimeError("OPENAI_API_KEY no está configurada")
 
-client = OpenAI(api_key=OPENAI_API_KEY)
+client = AsyncOpenAI(api_key=OPENAI_API_KEY)
 
 ROLE = prompts.system_message
 
@@ -36,7 +36,7 @@ def _get_env_int(name: str, default: int) -> int:
 TEMPERATURE = _get_env_float("OPENAI_TEMPERATURE", 0.4)
 MAX_TOKENS = _get_env_int("OPENAI_MAX_TOKENS", 400)
 
-def obtener_respuesta_ia(user_message, db, usuario_id, conversacion_id=None):
+async def obtener_respuesta_ia(user_message, db, usuario_id, conversacion_id=None):
     conversacion = utils.obtener_o_crear_conversacion(db, usuario_id, conversacion_id)
     # Si es nueva, sugiere título por el primer mensaje
     if not conversacion.titulo:
@@ -53,8 +53,15 @@ def obtener_respuesta_ia(user_message, db, usuario_id, conversacion_id=None):
 
     historial.append({"role": "user", "content": user_message})
 
+    # Ventana deslizante: el coste de tokens de entrada crece con la conversación.
+    # Mantener siempre el system prompt (índice 0) + los últimos N mensajes.
+    # Con len > N el slice [-N:] nunca incluye el índice 0, así que no se duplica el system.
+    N = 20  # 10 turnos de conversación
+    if len(historial) > N:
+        historial = [historial[0]] + historial[-N:]
+
     try:
-        response = client.chat.completions.create(
+        response = await client.chat.completions.create(
             model=MODEL,
             messages=historial,
             temperature=TEMPERATURE,

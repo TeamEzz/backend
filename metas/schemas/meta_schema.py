@@ -1,9 +1,9 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional, List
 
 
 class PlanRequest(BaseModel):
-    meta_titulo: str
+    meta_titulo: str = Field(max_length=100)
     meta_tag: Optional[str] = None
     es_custom: bool = False
     horizonte_meses: int

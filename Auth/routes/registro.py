@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 from Auth.schemas.schemas import UsuarioRegistroSimple, RegistroPendienteResponse
 from Auth.utils.password_utils import hash_password
@@ -11,12 +11,14 @@ from Auth.utils.email_utils import (
 )
 from database.models.user_model import Usuario
 from database.db import get_db
+from limiter import limiter
 
 router = APIRouter()
 
 
 @router.post("/registro", response_model=RegistroPendienteResponse, status_code=201)
-def registrar_usuario(usuario: UsuarioRegistroSimple, db: Session = Depends(get_db)):
+@limiter.limit("5/15minutes")  # anti-abuso de registro por IP
+async def registrar_usuario(request: Request, usuario: UsuarioRegistroSimple, db: Session = Depends(get_db)):
     usuario_existente = db.query(Usuario).filter(Usuario.email == usuario.email).first()
     if usuario_existente:
         raise HTTPException(status_code=400, detail="El correo ya está registrado.")
@@ -41,7 +43,7 @@ def registrar_usuario(usuario: UsuarioRegistroSimple, db: Session = Depends(get_
     db.refresh(nuevo_usuario)
 
     try:
-        enviar_codigo(nuevo_usuario.email, codigo, tipo="verificacion")
+        await enviar_codigo(nuevo_usuario.email, codigo, tipo="verificacion")
     except RuntimeError as exc:
         raise HTTPException(status_code=502, detail=f"No se pudo enviar el correo de verificación: {exc}")
 

@@ -1,9 +1,18 @@
-from fastapi import FastAPI, Response
+import logging
+import os
+
+import sentry_sdk
+from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 
-from Auth.routes import registro, login, login_google, protegida, nombre, verificar, recuperacion
+from slowapi.errors import RateLimitExceeded
+
+from limiter import limiter
+
+from Auth.routes import registro, login, login_google, protegida, nombre, verificar, recuperacion, cuenta
 from encuesta.routes import encuesta_routes
 from usuario.routes import perfil as perfil_routes
 from usuario.routes import editar as editar_routes
@@ -15,10 +24,57 @@ from lecciones.routes import progreso_routes
 from metas.routes import metas_routes
 from tracker.routes import tracker_routes
 
-from database.db import engine, Base
+from sqlalchemy import text
+
+from database.db import engine, Base, SessionLocal
 
 
-app = FastAPI()
+# Logging estructurado en JSON (una línea por evento) para ingestión/búsqueda en producción.
+logging.basicConfig(
+    level=logging.INFO,
+    format='{"time":"%(asctime)s","level":"%(levelname)s","logger":"%(name)s","message":"%(message)s"}',
+    datefmt="%Y-%m-%dT%H:%M:%SZ",
+)
+
+logger = logging.getLogger("ezapp")
+
+# Error tracking (Sentry). DSN vacío → desactivado silenciosamente (no rompe arranque local).
+sentry_sdk.init(
+    dsn=os.getenv("SENTRY_DSN", ""),
+    traces_sample_rate=0.1,
+    profiles_sample_rate=0.1,
+    environment=os.getenv("ENVIRONMENT", "development"),
+    send_default_pii=False,
+)
+
+ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
+docs_url = None if ENVIRONMENT == "production" else "/docs"
+redoc_url = None if ENVIRONMENT == "production" else "/redoc"
+openapi_url = None if ENVIRONMENT == "production" else "/openapi.json"
+app = FastAPI(docs_url=docs_url, redoc_url=redoc_url, openapi_url=openapi_url)
+
+# Rate limiting (slowapi): la instancia vive en limiter.py para evitar imports circulares.
+app.state.limiter = limiter
+
+
+@app.exception_handler(RateLimitExceeded)
+async def ratelimit_handler(request: Request, exc: RateLimitExceeded):
+    # Handler único: mensaje custom para el límite diario de chat; genérico para el resto.
+    # Debe registrarse explícitamente o el handler de Exception devolvería 500 en vez de 429.
+    if request.url.path.endswith("/chat/mensaje"):
+        detail = "Alcanzaste tu límite de mensajes por hoy. Vuelve mañana o actualiza a EZ Pro."
+    else:
+        detail = "Demasiadas solicitudes. Intenta más tarde."
+    return JSONResponse(status_code=429, content={"detail": detail})
+
+
+@app.exception_handler(Exception)
+async def unhandled_exception_handler(request: Request, exc: Exception):
+    # El handler intercepta la excepción; sin esto la integración automática de Sentry no la vería.
+    sentry_sdk.capture_exception(exc)
+    logger.exception("Error no manejado en %s %s", request.method, request.url.path)
+    return JSONResponse(status_code=500, content={"detail": "Error interno del servidor"})
+
 
 STATIC_DIR = Path("static")
 STATIC_DIR.mkdir(parents=True, exist_ok=True)
@@ -37,13 +93,25 @@ def root_head() -> Response:
 
 @app.get("/healthz")
 def healthz():
-    return {"status": "ok"}
+    # Sesión independiente (no Depends(get_db)) para no interferir con el pool de requests.
+    db = SessionLocal()
+    try:
+        db.execute(text("SELECT 1"))
+        return {"status": "ok", "db": "ok"}
+    except Exception:
+        logger.exception("Health check: la DB no respondió")
+        return JSONResponse(
+            status_code=503,
+            content={"status": "degraded", "db": "error", "detail": "Database unavailable"},
+        )
+    finally:
+        db.close()
 
 
-# CORS (ajusta allow_origins a tus dominios si quieres más seguridad)
+# CORS restringido a los dominios de producción.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],   # p.ej. ["https://tu-dominio.app", "exp://..."]
+    allow_origins=["https://ezapp.tech", "https://www.ezapp.tech"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -59,6 +127,7 @@ app.include_router(login.router,         prefix="/auth",     tags=["Auth"])
 app.include_router(login_google.router,  prefix="/auth",     tags=["Auth"])
 app.include_router(protegida.router,     prefix="/auth",     tags=["Auth"])
 app.include_router(nombre.router,        prefix="/auth",     tags=["Auth"])
+app.include_router(cuenta.router,        prefix="/auth",     tags=["Auth"])
 
 app.include_router(encuesta_routes.router)                           # ya tiene prefix="/encuesta" adentro
 app.include_router(perfil_routes.router, prefix="/usuario", tags=["Usuario"])

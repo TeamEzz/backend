@@ -1,8 +1,12 @@
 # Auth/utils/google_utils.py
+import logging
+
 from google.oauth2 import id_token
 from google.auth.transport.requests import Request
 from fastapi import HTTPException
 from typing import Mapping, Any
+
+logger = logging.getLogger(__name__)
 
 GOOGLE_CLIENT_ID = "505493283813-5h7io4n2mp3t2rr6b9f0o27a573r1ase.apps.googleusercontent.com"
 
@@ -27,9 +31,9 @@ def verificar_token_google(token: str):
             "sub": idinfo.get("sub"),
         }
 
-    except Exception as e:
-        print("❌ Error al verificar token:", e)
-        raise HTTPException(status_code=403, detail=f"Token de Google inválido: {e}")
+    except Exception:
+        logger.exception("Error al verificar token de Google")
+        raise HTTPException(status_code=403, detail="Token de Google inválido")
 
  
 
@@ -45,14 +49,11 @@ def verificar_token_google(token: str):
         if not idinfo.get("iss", "").endswith("accounts.google.com"):
             raise HTTPException(status_code=403, detail="Issuer del token no válido")
 
-        print("✅ Token verificado correctamente")
-        print("📩 Payload decodificado:", idinfo)
-
         return {
             "email": idinfo.get("email"),
             "nombre": idinfo.get("name")  # Asegúrate de que sea 'name' si así llega en el token
         }
 
-    except Exception as e:
-        print("❌ Error al verificar token:", str(e))
-        raise HTTPException(status_code=403, detail=f"Token de Google inválido: {str(e)}")
+    except Exception:
+        logger.exception("Error al verificar token de Google")
+        raise HTTPException(status_code=403, detail="Token de Google inválido")

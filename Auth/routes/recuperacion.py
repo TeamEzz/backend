@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 
 from Auth.schemas.schemas import (
@@ -19,6 +19,7 @@ from Auth.utils.email_utils import (
 )
 from database.models.user_model import Usuario
 from database.db import get_db
+from limiter import limiter
 
 router = APIRouter()
 
@@ -31,7 +32,8 @@ def _as_utc(dt: datetime) -> datetime:
 
 
 @router.post("/solicitar-recuperacion")
-def solicitar_recuperacion(datos: RecuperacionRequest, db: Session = Depends(get_db)):
+@limiter.limit("5/15minutes")  # anti-abuso por IP
+async def solicitar_recuperacion(request: Request, datos: RecuperacionRequest, db: Session = Depends(get_db)):
     mensaje_generico = {
         "mensaje": "Si la cuenta existe, te enviamos un código para restablecer tu contraseña."
     }
@@ -56,7 +58,7 @@ def solicitar_recuperacion(datos: RecuperacionRequest, db: Session = Depends(get
     db.commit()
 
     try:
-        enviar_codigo(usuario.email, codigo, tipo="recuperacion")
+        await enviar_codigo(usuario.email, codigo, tipo="recuperacion")
     except RuntimeError as exc:
         raise HTTPException(status_code=502, detail=f"No se pudo enviar el correo de recuperación: {exc}")
 
@@ -64,7 +66,8 @@ def solicitar_recuperacion(datos: RecuperacionRequest, db: Session = Depends(get
 
 
 @router.post("/verificar-recuperacion", response_model=UsuarioConToken)
-def verificar_recuperacion(datos: VerificarRecuperacionRequest, db: Session = Depends(get_db)):
+@limiter.limit("10/15minutes")  # límite por IP (además del throttle interno por intentos)
+def verificar_recuperacion(request: Request, datos: VerificarRecuperacionRequest, db: Session = Depends(get_db)):
     usuario = db.query(Usuario).filter(Usuario.email == datos.email).first()
     if not usuario:
         raise HTTPException(status_code=404, detail="Usuario no encontrado")

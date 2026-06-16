@@ -1,8 +1,7 @@
 """Envío de correos transaccionales para la verificación de cuenta.
 
-Usa la API HTTP de Resend mediante la dependencia `requests` ya presente en el proyecto
-(no requiere paquetes adicionales). Para cambiar de proveedor (SendGrid, Postmark, …) basta
-con reescribir `enviar_codigo`.
+Usa la API HTTP de Resend mediante `httpx.AsyncClient` (envío no bloqueante). Para cambiar de
+proveedor (SendGrid, Postmark, …) basta con reescribir `enviar_codigo`.
 
 Variables de entorno requeridas:
     RESEND_API_KEY   API key de Resend.
@@ -12,7 +11,7 @@ import os
 import secrets
 from datetime import datetime, timedelta, timezone
 
-import requests
+import httpx
 
 # --- Parámetros del código de verificación ---
 CODIGO_EXPIRA_MINUTOS = 10      # vigencia del código
@@ -54,7 +53,7 @@ def _cuerpo_recuperacion(codigo: str) -> str:
     )
 
 
-def enviar_codigo(email: str, codigo: str, tipo: str) -> None:
+async def enviar_codigo(email: str, codigo: str, tipo: str) -> None:
     """Envía un código de 6 dígitos al correo indicado.
 
     `tipo` selecciona el asunto y el cuerpo:
@@ -77,21 +76,21 @@ def enviar_codigo(email: str, codigo: str, tipo: str) -> None:
         html = _cuerpo_html(codigo)
 
     try:
-        resp = requests.post(
-            RESEND_API_URL,
-            headers={
-                "Authorization": f"Bearer {api_key}",
-                "Content-Type": "application/json",
-            },
-            json={
-                "from": remitente,
-                "to": [email],
-                "subject": subject,
-                "html": html,
-            },
-            timeout=10,
-        )
-    except requests.RequestException as exc:
+        async with httpx.AsyncClient(timeout=10) as client:
+            resp = await client.post(
+                RESEND_API_URL,
+                headers={
+                    "Authorization": f"Bearer {api_key}",
+                    "Content-Type": "application/json",
+                },
+                json={
+                    "from": remitente,
+                    "to": [email],
+                    "subject": subject,
+                    "html": html,
+                },
+            )
+    except httpx.RequestError as exc:
         raise RuntimeError(f"No se pudo contactar al proveedor de correo: {exc}") from exc
 
     if resp.status_code >= 400:
