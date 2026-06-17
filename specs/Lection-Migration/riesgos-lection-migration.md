@@ -200,9 +200,14 @@ Los IDs 1-4 (Nivel 0) están hardcodeados en el frontend y en la tabla `progreso
 - [ ] Testing exhaustivo en Fase 3 antes de submit — no hay segunda oportunidad sin delay
 - [ ] Mantener el path hardcodeado compilable hasta después de la primera aprobación de App Store
 
-**Mitigaciones aplicadas:** *(completar durante implementación)*  
-**Probabilidad residual:** —  
-**Evaluación post-implementación:** —
+**Mitigaciones aplicadas:** ✅ COMPLETADO (Fase 2, 2026-06-17)
+- ✅ `Config.useServerDrivenContent` implementado — `false` por defecto, activa LeccionEngine cuando `true`
+- ✅ Path hardcodeado (`Leccion*Nivel0()`) preservado íntegro en el `else` branch de `destinoLeccion()`
+- ✅ El feature flag es un killswitch real: en cualquier momento se puede flipear a `false` sin re-submit
+- ⏳ Testing exhaustivo (Fase 3) pendiente antes de activar el flag y hacer submit
+
+**Probabilidad residual:** Baja — el feature flag garantiza que cualquier bug crítico en el renderer no bloquea a los usuarios  
+**Evaluación post-implementación:** ✅ Killswitch implementado. Riesgo real reducido a "delay de re-submit si el flag mismo falla" (extremadamente improbable).
 
 ---
 
@@ -265,14 +270,21 @@ Las imágenes de lecciones (ej: `"Leccion 0.1"`, `"Intro 0.2"`) viven en `Assets
 Las vistas hardcodeadas en Swift son imposibles de crashear por datos incorrectos (el compilador garantiza que los datos existen). Un renderer que decodifica JSON en runtime puede crashear si un campo requerido llega nulo, un tipo es incorrecto, o un `tipo` desconocido no está manejado. Estos crashes son silenciosos en producción (Crashlytics, no visible al usuario hasta que la pantalla se congela o cierra).
 
 **Mitigaciones propuestas:**
-- [ ] Todos los Codable models usan campos opcionales donde aplica, con valores default seguros
-- [ ] El switch sobre `paso.tipo` siempre tiene un `default:` case que muestra una pantalla de error (no crash)
+- [x] Todos los Codable models usan campos opcionales donde aplica, con valores default seguros
+- [x] El switch sobre `paso.tipo` siempre tiene un `default:` case que muestra una pantalla de error (no crash)
 - [ ] Integrar Crashlytics/logging para detectar decodificación fallida antes del launch
 - [ ] `schema-lint-agent` valida que cada JSON puede ser decodificado por los Codable models antes del seeding
 
-**Mitigaciones aplicadas:** *(completar durante implementación)*  
-**Probabilidad residual:** —  
-**Evaluación post-implementación:** —
+**Mitigaciones aplicadas:** ✅ COMPLETADO (Fase 2, 2026-06-17)
+- ✅ `PasoData` enum con `case unknown(String)` — cualquier tipo desconocido va a `ErrorPasoView`, jamás crash
+- ✅ Todos los campos opcionales son `String?`, `Int?` con nil-coalescing seguro en las vistas
+- ✅ Zero force-unwraps en todo el stack LeccionModels → LeccionContentService → LeccionEngineView
+- ✅ `ErrorPasoView` siempre compilado — no dead code, es el fallback del engine
+- ⏳ Crashlytics/logging — pendiente antes del launch
+- ⏳ `schema-lint-agent` — pendiente antes del seeding
+
+**Probabilidad residual:** Muy Baja — la única forma de crash sería un bug en el propio `init(from:)` del PasoData, no en datos del backend  
+**Evaluación post-implementación:** ✅ La arquitectura de decodificación es crash-safe por diseño. El `unknown` case cierra el último vector de crash.
 
 ---
 
