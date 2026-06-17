@@ -111,12 +111,17 @@ La validación de respuestas correctas está actualmente implícita en código S
 - [ ] Cache local con TTL (implementar en LeccionContentService antes de eliminar path hardcodeado)
 - [ ] Pre-fetch de todas las lecciones en onboarding (cuando hay WiFi)
 - [ ] Modo offline básico: servir desde cache cuando API no responde
-- [ ] Evaluar upgrade a tier de Render con keep-alive (costo vs UX)
+- [x] ~~Evaluar upgrade a tier de Render con keep-alive~~ — ya tiene instancia de pago, sin cold start
 - [ ] Health check en startup: si API no responde en 3 segundos, usar cache sin error visible
 
-**Mitigaciones aplicadas:** *(completar durante implementación)*  
-**Probabilidad residual:** —  
-**Evaluación post-implementación:** —
+**Mitigaciones aplicadas:** ✅ RESUELTO PARCIALMENTE (2026-06-17)
+- ✅ **Cold start eliminado**: el backend corre en instancia de pago en Render — no hay sleep ni arranque en frío. El escenario principal de R3 (15-30s de espera) **no aplica**.
+- ⏳ Cache local (LeccionContentService): se implementa en Fase 2 frontend — protege contra caídas de red y outages del servicio
+- ⏳ Pre-fetch en onboarding: Fase 2 frontend
+- ⏳ Modo offline: Fase 2 frontend
+
+**Probabilidad residual:** Baja — solo escenario de outage real del servicio (no cold start)  
+**Evaluación post-implementación:** R3 recalificado. Impacto real reducido significativamente por instancia de pago.
 
 ---
 
