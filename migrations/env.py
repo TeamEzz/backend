@@ -31,6 +31,8 @@ from database.models import (
 )
 # Importa modelos de chat para que Alembic los conozca en autogenerate
 from chat.models import chat_model  # noqa: F401
+# Importa modelo de contenido de lecciones (tabla `lecciones`)
+from database.models import contenido_leccion_model  # noqa: F401
 
 target_metadata = Base.metadata
 
