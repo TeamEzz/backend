@@ -264,9 +264,18 @@ El análisis de dependencias confirmó CERO referencias de tipo desde archivos e
 - [ ] Build limpio en Xcode después de modificar VistaEducacion y ANTES de borrar carpeta
 - [ ] Git commit de los cambios a VistaEducacion antes del rm -rf de la carpeta
 
-**Mitigaciones aplicadas:** *(completar durante implementación)*  
-**Probabilidad residual:** —  
-**Evaluación post-implementación:** —
+**Mitigaciones aplicadas:** ✅ COMPLETADO (2026-06-17)
+- VistaEducacion.swift auditado antes de borrar: ya tenía referencia a Nivel1View y 7 niveles — se corrigió
+- Carpeta `Nivel 1/` eliminada completa: Nivel1View, Nivel1Leccion1, 10 slides, EmojiPricing, EmojiAnnualEstimator
+- EmojiPricing/EmojiAnnualEstimator: no requirieron migración (encuesta2 ya había sido eliminada por el developer)
+- VistaEducacion.swift: corrupción de encoding UTF-8 detectada y corregida (11 chars: ó, á, ú, é, í)
+- Proyecto usa PBXFileSystemSynchronizedRootGroup (Xcode 16): no requirió editar .pbxproj
+- Commit: `eb5adfe` en branch `Bug-Fixes-&-New-design`
+
+**Advertencia de uso post-Step Zero:** Si SourceKit muestra errores en `Encuesta2ViewModel.swift` para `calcularRango`, `URLS`, o `TokenManager` — son **falsos positivos pre-existentes**. Resuelven en compilación completa (Cmd+B). No tocar.
+
+**Probabilidad residual:** Ninguna — Step Zero completado y verificado  
+**Evaluación post-implementación:** ✅ Sin issues. Nivel 1 eliminado limpiamente. Encoding corregido.
 
 ---
 
