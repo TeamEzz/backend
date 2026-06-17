@@ -1,0 +1,242 @@
+{
+  "id": 4,
+  "nivel": 0,
+  "orden": 4,
+  "titulo": "Importancia de la educación financiera",
+  "descripcion": "Descubre por qué aprender sobre finanzas puede cambiar tu historia.",
+  "duracion_minutos": 8,
+  "imagen_portada_key": "Leccion 0.4",
+  "version": 1,
+  "pasos": [
+    {
+      "paso_id": 1,
+      "tipo": "explanation",
+      "contenido": {
+        "texto_principal": "Saber de finanzas es para quienes quieren cambiar su historia",
+        "subtitulo": null,
+        "imagen_key": "Fondo 0.4",
+        "texto_boton": "EMPEZAR",
+        "texto_secundario": "¿Estás listo para encontrar tu porqué?"
+      }
+    },
+    {
+      "paso_id": 2,
+      "tipo": "explanation",
+      "contenido": {
+        "texto_principal": "Estoy aquí para escucharte, responde honestamente",
+        "subtitulo": null,
+        "imagen_key": "Toro psicologo",
+        "texto_boton": "Continuar",
+        "texto_secundario": "¿Estás listo?"
+      },
+      "_nota": "Slide1_04: muestra el texto 'Estoy aquí para escucharte, responde honestamente' en un banner de cabecera, la imagen 'Toro psicologo', el texto '¿Estás listo?' en texto grande, y un botón 'Continuar'. No usa imagen de fondo sino color darkBlue."
+    },
+    {
+      "paso_id": 3,
+      "tipo": "motivational_choice",
+      "contenido": {
+        "pregunta": "¿Estás dispuesto a dedicar unos minutos al día para aprender a manejar tu plata?",
+        "imagen_key": "Toro psicologo",
+        "opciones": [
+          {
+            "id": "si",
+            "texto": "Sí",
+            "respuesta_personalizada": "¡Eso es! Unos minutos al día pueden cambiar años de tu vida. Vamos a hacerlo simple y útil"
+          },
+          {
+            "id": "no",
+            "texto": "No",
+            "respuesta_personalizada": "Entiendo que a veces hay otras prioridades… pero cuidar tu plata es cuidar tu vida. Quizás más adelante te animes."
+          },
+          {
+            "id": "no_seguro",
+            "texto": "No estoy seguro",
+            "respuesta_personalizada": "Está bien dudar. Pero créeme, no necesitas horas: solo ganas de mejorar. Vamos paso a paso."
+          }
+        ]
+      }
+    },
+    {
+      "paso_id": 4,
+      "tipo": "motivational_choice",
+      "contenido": {
+        "pregunta": " ¿Alguna vez te has sentido perdido con tus finanzas?",
+        "imagen_key": "Toro psicologo",
+        "opciones": [
+          {
+            "id": "si",
+            "texto": "Sí",
+            "respuesta_personalizada": "No eres el único. ¡Justo por eso estamos aquí! Aprender sobre dinero no debería dar miedo."
+          },
+          {
+            "id": "no",
+            "texto": "No",
+            "respuesta_personalizada": "¡Eso es bueno! Aun así, siempre se puede mejorar o ayudar a alguien más con lo que aprendes."
+          },
+          {
+            "id": "no_seguro",
+            "texto": "No estoy seguro",
+            "respuesta_personalizada": "A veces uno se acostumbra a vivir con dudas. Pero si alguna vez te ha dolido no saber, aquí vamos a cambiar eso."
+          }
+        ]
+      },
+      "_nota": "La pregunta en el Swift original tiene un espacio inicial: ' ¿Alguna vez te has sentido perdido con tus finanzas?'. Preservado verbatim."
+    },
+    {
+      "paso_id": 5,
+      "tipo": "motivational_choice",
+      "contenido": {
+        "pregunta": "¿Te gustaría tomar decisiones con más confianza?",
+        "imagen_key": "Toro psicologo",
+        "opciones": [
+          {
+            "id": "si",
+            "texto": "Sí",
+            "respuesta_personalizada": "¡Esa es la actitud! No se trata de saberlo todo, sino de entender lo que haces con tu plata."
+          },
+          {
+            "id": "no",
+            "texto": "No",
+            "respuesta_personalizada": "Está bien. Pero recuerda: quien entiende su dinero, elige mejor su camino."
+          },
+          {
+            "id": "no_seguro",
+            "texto": "No estoy seguro",
+            "respuesta_personalizada": "A veces uno no sabe si va por buen camino. Aprender te da claridad. Y esa claridad… vale oro."
+          }
+        ]
+      }
+    },
+    {
+      "paso_id": 6,
+      "tipo": "motivational_choice",
+      "contenido": {
+        "pregunta": "¿Sientes que tus decisiones con el dinero te acercan a tus metas?",
+        "imagen_key": "Toro psicologo",
+        "opciones": [
+          {
+            "id": "si",
+            "texto": "Sí",
+            "respuesta_personalizada": "¡Eso está genial! A veces solo hace falta ver tus logros con claridad. Sigamos reforzando ese camino."
+          },
+          {
+            "id": "no",
+            "texto": "No",
+            "respuesta_personalizada": "Vamos a descubrirlo juntos. A veces solo hace falta una luz para ver mejor el camino."
+          },
+          {
+            "id": "no_seguro",
+            "texto": "No estoy seguro",
+            "respuesta_personalizada": "No pasa nada. Entender bien tus decisiones te va a ayudar a alinear tu dinero con tus sueños."
+          }
+        ]
+      }
+    },
+    {
+      "paso_id": 7,
+      "tipo": "motivational_choice",
+      "contenido": {
+        "pregunta": "¿Te gustaría que tu dinero trabaje para ti y no al revés?",
+        "imagen_key": "Toro psicologo",
+        "opciones": [
+          {
+            "id": "si",
+            "texto": "Sí",
+            "respuesta_personalizada": "Esa es la mentalidad de un toro. Vamos a enseñarte a usar bien tu plata para que te dé libertad."
+          },
+          {
+            "id": "no",
+            "texto": "No",
+            "respuesta_personalizada": "Está bien, suena ambicioso. Pero aquí vamos paso a paso, desde lo básico hasta lo brutal."
+          },
+          {
+            "id": "no_seguro",
+            "texto": "No estoy seguro",
+            "respuesta_personalizada": "No todos saben lo que eso significa al principio. Pero te lo voy a mostrar… y te va a encantar."
+          }
+        ]
+      }
+    },
+    {
+      "paso_id": 8,
+      "tipo": "explanation",
+      "contenido": {
+        "texto_principal": "Gracias por responder, espero ayudarte a cumplir todas tus metas financieras",
+        "subtitulo": null,
+        "imagen_key": "Toro psicologo",
+        "texto_boton": "Continuar"
+      },
+      "_nota": "Slide3_04: muestra la imagen 'Toro psicologo' y el texto 'Gracias por responder, espero ayudarte a cumplir todas tus metas financieras' con un botón 'Continuar'. No usa imagen de fondo sino color darkBlue."
+    },
+    {
+      "paso_id": 9,
+      "tipo": "icon_grid_selection",
+      "contenido": {
+        "instruccion": "¿Qué sueñas lograr?",
+        "subtitulo": "Soñar no cuesta, pero cumplirlo sí requiere estrategia. ¡Vamos por eso!",
+        "opciones": [
+          { "id": "avion", "icon_key": "✈️", "label": "Viajes" },
+          { "id": "casa", "icon_key": "🏠", "label": "Casa" },
+          { "id": "educacion", "icon_key": "🎓", "label": "Educación" },
+          { "id": "dinero", "icon_key": "💰", "label": "Dinero" },
+          { "id": "tarjeta", "icon_key": "💳", "label": "Crédito" },
+          { "id": "acuerdo", "icon_key": "🤝", "label": "Acuerdo" },
+          { "id": "salud", "icon_key": "🏥", "label": "Salud" },
+          { "id": "anillo", "icon_key": "💍", "label": "Matrimonio" },
+          { "id": "playa", "icon_key": "🏖️", "label": "Vacaciones" }
+        ],
+        "correct_ids": [],
+        "min_selection": 0,
+        "max_selection": 9,
+        "feedback_correcto": "¡Excelente!\n\nCuando terminemos estarás un paso más cerca de conseguirlos. No se trata del resultado, sino de ser un poco mejor cada día.",
+        "feedback_incorrecto": null,
+        "imagen_mascota": "ToroFeliz",
+        "texto_boton": "Continuar"
+      },
+      "_nota": "Slide4_04: grid de emojis (3x3) donde el usuario selecciona sus sueños/metas financieras. No hay respuesta correcta — cualquier selección es válida. Los icon_key son emojis directamente (no assets de imagen). Al presionar Continuar aparece un mensaje motivacional del toro. Los emojis del Swift son: fila1=[✈️,🏠,🎓], fila2=[💰,💳,🤝], fila3=[🏥,💍,🏖️]."
+    },
+    {
+      "paso_id": 10,
+      "tipo": "image_carousel",
+      "contenido": {
+        "instruccion": "Toca la pantalla para continuar con la historia",
+        "items": [
+          {
+            "imagen_key": "Portadas 0.4",
+            "caption": "Haz clic cuando quieras continuar con las historias"
+          },
+          {
+            "imagen_key": "Escena1 0.4",
+            "caption": "Dos toros. Mismo ingreso. Sueños diferentes. ¿Qué camino tomarías tú?"
+          },
+          {
+            "imagen_key": "Escena2 0.4",
+            "caption": "No es cuánto ganas. Es cómo eliges usarlo."
+          },
+          {
+            "imagen_key": "Escena3 0.4",
+            "caption": "10 años después... Cada decisión diaria construye tu futuro. A veces sin que lo notes."
+          },
+          {
+            "imagen_key": "Escena4 0.4",
+            "caption": "20 años después... Los dos tuvieron sueños. Solo uno aprendió a dirigir su dinero."
+          }
+        ],
+        "mensaje_final": "El camino a la libertad financiera no es sencillo, pero sí es posible.\n\nNo se trata de ganar más, sino de aprender a decidir mejor. Y con cada paso que das aquí… ya estás cambiando tu historia.",
+        "mascota_final": "ToroFeliz",
+        "texto_boton": "Continuar"
+      },
+      "_nota": "HistoriaInteractiva (SlideHistoria 0.4.swift): el usuario avanza tocando la pantalla. Después de la última escena aparece el toro (ToroFeliz) con un globo de diálogo con el mensaje_final. El avance es tap-to-continue, no un carrusel con navegación libre."
+    },
+    {
+      "paso_id": 11,
+      "tipo": "achievement",
+      "contenido": {
+        "titulo": "¡LO LOGRASTE!",
+        "mensaje": "Ya diste tu primer paso para entender cómo funciona el dinero\n\nNo se trata de saberlo todo, sino de pensar con intención. Y eso ya lo estás haciendo.\n\n¡Vamos por la siguiente lección!",
+        "imagen_key": "ToroLogro",
+        "texto_boton": "CONTINUAR"
+      }
+    }
+  ]
+}

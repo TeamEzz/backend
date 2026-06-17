@@ -1,0 +1,104 @@
+{
+  "id": 1,
+  "nivel": 0,
+  "orden": 1,
+  "titulo": "¿Qué son las finanzas?",
+  "descripcion": "Aprende qué son las finanzas y cómo cada decisión con tu dinero cuenta.",
+  "duracion_minutos": 8,
+  "imagen_portada_key": "Leccion 0.1",
+  "version": 1,
+  "pasos": [
+    {
+      "paso_id": 1,
+      "tipo": "explanation",
+      "contenido": {
+        "texto_principal": null,
+        "subtitulo": null,
+        "imagen_key": "SlideIntro1",
+        "texto_boton": "CONTINUAR"
+      },
+      "_nota": "SlideIntro1 es solo una imagen de pantalla completa sin texto principal ni subtítulo. El contenido informativo está completamente en la imagen del asset."
+    },
+    {
+      "paso_id": 2,
+      "tipo": "icon_grid_selection",
+      "contenido": {
+        "instruccion": "Selecciona los productos que quieres llevar en tu canasta (presupuesto: $100)",
+        "opciones": [
+          { "id": "snacks", "icon_key": "Snacks 0.1", "label": "Snacks ($10)" },
+          { "id": "camisa", "icon_key": "Camisa 0.1", "label": "Camisa ($40)" },
+          { "id": "audifonos", "icon_key": "Audifonos 0.1", "label": "Audifonos ($30)" },
+          { "id": "bombillo", "icon_key": "Bombillo 0.1", "label": "Bombillo ($35)" },
+          { "id": "lunch", "icon_key": "Lunch 0.1", "label": "Lunch ($20)" },
+          { "id": "limpieza", "icon_key": "Limpieza 0.1", "label": "Limpieza ($20)" }
+        ],
+        "correct_ids": [],
+        "min_selection": 1,
+        "max_selection": 10,
+        "feedback_correcto": "¡EXCELENTE!",
+        "feedback_incorrecto": null
+      },
+      "_nota": "SlideIntro2 es un juego de compras libre con presupuesto de $100. No hay selección correcta/incorrecta — el juego termina cuando el presupuesto se agota o no quedan ítems asequibles. correct_ids vacío indica que cualquier combinación válida dentro del presupuesto es aceptada. El fondo usa Image('Estanteria'). Los precios son: Snacks $10, Camisa $40, Audifonos $30, Bombillo $35, Lunch $20, Limpieza $20."
+    },
+    {
+      "paso_id": 3,
+      "tipo": "explanation",
+      "contenido": {
+        "texto_principal": "¿Qué hiciste aquí?",
+        "subtitulo": "Lo que haces todos los días: elegir",
+        "imagen_key": "toroExplicacion",
+        "texto_boton": "Continuar",
+        "cuerpo": [
+          "Las necesidades son las cosas que realmente necesitas para vivir bien y seguro (como comida, salud o transporte).",
+          "Los gustos o deseos son esas cosas que quieres, pero que no son imprescindibles (como snacks o un celular nuevo).",
+          "Saber diferenciar entre estos dos es clave para que tu plata no se te vaya sin darte cuenta. ¡No se trata de no darte gustos, sino de saber cuándo y cómo!"
+        ]
+      }
+    },
+    {
+      "paso_id": 4,
+      "tipo": "icon_grid_selection",
+      "contenido": {
+        "instruccion": "ELIGE 2 OBJETOS PARA COMPLETAR LA MALETA DE EASY",
+        "opciones": [
+          { "id": "audifonos_maleta", "icon_key": "AudifonosMaleta", "label": "Audífonos" },
+          { "id": "libro_maleta", "icon_key": "LibroMaleta", "label": "Libro" },
+          { "id": "chocolate_maleta", "icon_key": "ChocolateMaleta", "label": "Chocolate" },
+          { "id": "zapato_maleta", "icon_key": "ZapatoMaleta", "label": "Zapatos" }
+        ],
+        "correct_ids": [],
+        "min_selection": 2,
+        "max_selection": 2,
+        "feedback_correcto": null,
+        "feedback_incorrecto": null
+      },
+      "_nota": "MinijuegoMaleta (SlideMinijuego2.swift): el usuario elige exactamente 2 de 4 objetos para poner en la maleta. No existe validación de respuesta correcta — cualquier combinación de 2 es válida. El juego tiene una fase intro (imagen FondoMaleta + ToroMaleta por 2 segundos) antes del juego real. El fondo de juego también usa FondoMaleta."
+    },
+    {
+      "paso_id": 5,
+      "tipo": "explanation",
+      "contenido": {
+        "texto_principal": "Tu maleta es como tu dinero",
+        "subtitulo": null,
+        "imagen_key": "ToroExplicacion2",
+        "texto_boton": "Continuar",
+        "cuerpo": [
+          "Igual que en tu viaje, tu plata también tiene un límite.",
+          "No siempre podrás llevar todo lo que quieres.",
+          "Elegir bien qué poner primero (lo esencial) es la clave para no quedarte sin lo importante y aun así darte algún gusto.",
+          "Reflexiona por un momento: ¿Elegiste lo más necesario para el viaje?"
+        ]
+      }
+    },
+    {
+      "paso_id": 6,
+      "tipo": "achievement",
+      "contenido": {
+        "titulo": "¡LO LOGRASTE!",
+        "mensaje": "Ya diste tu primer paso para entender cómo funciona el dinero\n\nNo se trata de saberlo todo, sino de pensar con intención. Y eso ya lo estás haciendo.\n\n¡Vamos por la siguiente lección!",
+        "imagen_key": "ToroLogro",
+        "texto_boton": "CONTINUAR"
+      }
+    }
+  ]
+}

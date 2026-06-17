@@ -1,0 +1,143 @@
+{
+  "id": 2,
+  "nivel": 0,
+  "orden": 2,
+  "titulo": "Tipos de gastos y por qué importa saberlos",
+  "descripcion": "Distingue entre gastos necesarios, deseos e impulsivos, y entre fijos y variables.",
+  "duracion_minutos": 8,
+  "imagen_portada_key": "Leccion 0.2",
+  "version": 1,
+  "pasos": [
+    {
+      "paso_id": 1,
+      "tipo": "explanation",
+      "contenido": {
+        "texto_principal": "Conoce tus gastos: el primer paso para dominarlos",
+        "subtitulo": null,
+        "imagen_key": "Intro 0.2",
+        "texto_boton": "EMPEZAR"
+      }
+    },
+    {
+      "paso_id": 2,
+      "tipo": "explanation",
+      "contenido": {
+        "texto_principal": "Tus gastos no son todos iguales",
+        "subtitulo": null,
+        "imagen_key": "ToroExplicacion2",
+        "texto_boton": "Continuar",
+        "cuerpo": [
+          "Cada vez que gastas, eliges entre lo que necesitas, lo que deseas y… lo que simplemente se te antojó en el momento.",
+          "Saber distinguir entre estos tres tipos te ayuda a que tu dinero alcance para lo importante y no se pierda en caprichos.",
+          "Prepárate, detective: vamos a descubrir en qué se te va la plata."
+        ]
+      }
+    },
+    {
+      "paso_id": 3,
+      "tipo": "card_classification",
+      "contenido": {
+        "instruccion": "Selecciona el tablero al que pertenece cada gasto",
+        "cards": [
+          { "id": "carta_ahorros", "label": "Ahorros", "imagen_key": "CartaAhorros 0.2" },
+          { "id": "carta_vacaciones", "label": "Vacaciones", "imagen_key": "CartaVacaciones 0.2" },
+          { "id": "carta_ropa", "label": "Ropa", "imagen_key": "CartaRopa 0.2" },
+          { "id": "carta_casa", "label": "Casa", "imagen_key": "CartaCasa 0.2" },
+          { "id": "carta_snacks", "label": "Snacks", "imagen_key": "CartaSnacks 0.2" },
+          { "id": "carta_taxi", "label": "Taxi", "imagen_key": "CartaTaxi 0.2" }
+        ],
+        "categories": [
+          {
+            "id": "necesario",
+            "label": "Necesario",
+            "color_key": "necesario",
+            "correct_card_ids": ["carta_ahorros", "carta_casa"]
+          },
+          {
+            "id": "deseo",
+            "label": "Deseo",
+            "color_key": "deseo",
+            "correct_card_ids": ["carta_vacaciones", "carta_ropa"]
+          },
+          {
+            "id": "impulsivo",
+            "label": "Impulsivo",
+            "color_key": "impulsivo",
+            "correct_card_ids": ["carta_snacks", "carta_taxi"]
+          }
+        ],
+        "fondo_key": "Minijuego1 0.2",
+        "feedback_incorrecto": "¡Intenta otra vez!",
+        "validation_notes": "El usuario clasifica las cartas de una en una arrastrándolas al tablero. Solo avanza si la clasificación es correcta (verifica seleccion == actual.tipoCorrecto). Si es incorrecta, la carta regresa a su posición original y se muestra el mensaje de error. Se clasifican las 6 cartas en orden."
+      }
+    },
+    {
+      "paso_id": 4,
+      "tipo": "explanation",
+      "contenido": {
+        "texto_principal": "Detective de gastos",
+        "subtitulo": null,
+        "imagen_key": "ToroExplicacion2",
+        "texto_boton": "Continuar",
+        "cuerpo": [
+          "Esta es una de las habilidades más importantes para dominar tu plata: reconocer qué es esencial, qué puedes permitirte… y qué solo es un capricho.",
+          "Cuanto mejor los distingas, más fácil será ahorrar y usar tu dinero con propósito."
+        ]
+      }
+    },
+    {
+      "paso_id": 5,
+      "tipo": "grid_classification",
+      "contenido": {
+        "instruccion": "Clasifica los gastos",
+        "items": [
+          { "id": "carta_netflix", "label": "Netflix", "imagen_key": "CartaNetflix 0.2" },
+          { "id": "carta_restaurante", "label": "Restaurante", "imagen_key": "CartaRestaurante 0.2" },
+          { "id": "carta_luz", "label": "Luz", "imagen_key": "CartaLuz 0.2" },
+          { "id": "carta_gasolina", "label": "Gasolina", "imagen_key": "CartaGasolina 0.2" }
+        ],
+        "columns": [
+          {
+            "id": "fijo",
+            "label": "Fijo",
+            "correct_item_ids": ["carta_netflix", "carta_luz"]
+          },
+          {
+            "id": "variable",
+            "label": "Variable",
+            "correct_item_ids": ["carta_restaurante", "carta_gasolina"]
+          }
+        ],
+        "fondo_key": "Fondo2 0.2",
+        "feedback_incorrecto": "¡Intenta de nuevo!",
+        "validation_notes": "El usuario clasifica las cartas de una en una eligiendo la columna (fijo o variable). Solo avanza si la clasificación es correcta (seleccion == actual.tipoCorrecto). Si es incorrecta, la carta regresa y aparece el mensaje de error. Se clasifican las 4 cartas en orden: CartaNetflix, CartaRestaurante, CartaLuz, CartaGasolina."
+      }
+    },
+    {
+      "paso_id": 6,
+      "tipo": "explanation",
+      "contenido": {
+        "texto_principal": "¡Así quedó tu investigación!",
+        "subtitulo": "",
+        "imagen_key": "toroExplicacion",
+        "texto_boton": "Continuar",
+        "cuerpo": [
+          "Acabas de separar tus gastos en fijos y variables, tal como se hace en la vida real.",
+          "Los que pusiste en fijo son los que debes pagar todos los meses sí o sí (como la luz).",
+          "Los que pusiste en variable son más flexibles y dependen de tus decisiones (como comer en un restaurante).",
+          "Esta distinción es clave para saber en qué puedes ajustar cuando quieres ahorrar."
+        ]
+      }
+    },
+    {
+      "paso_id": 7,
+      "tipo": "achievement",
+      "contenido": {
+        "titulo": "¡LO LOGRASTE!",
+        "mensaje": "Ya diste tu primer paso para entender cómo funciona el dinero\n\nNo se trata de saberlo todo, sino de pensar con intención. Y eso ya lo estás haciendo.\n\n¡Vamos por la siguiente lección!",
+        "imagen_key": "ToroLogro",
+        "texto_boton": "CONTINUAR"
+      }
+    }
+  ]
+}

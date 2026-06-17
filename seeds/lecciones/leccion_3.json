@@ -1,0 +1,223 @@
+{
+  "id": 3,
+  "nivel": 0,
+  "orden": 3,
+  "titulo": "Palabras frecuentes, sin enredos",
+  "descripcion": "Aprende los términos financieros clave: ahorro, inversión, gasto, deuda e impuestos.",
+  "duracion_minutos": 8,
+  "imagen_portada_key": "Leccion 0.3",
+  "version": 1,
+  "pasos": [
+    {
+      "paso_id": 1,
+      "tipo": "explanation",
+      "contenido": {
+        "texto_principal": "Aquí aprenderás las palabras que más escucharás en esta app.",
+        "subtitulo": null,
+        "imagen_key": "Fondo 0.3",
+        "texto_boton": "EMPEZAR",
+        "texto_secundario": "No necesitas ser banquero para entenderlas, ni usar corbata."
+      }
+    },
+    {
+      "paso_id": 2,
+      "tipo": "motivational_choice",
+      "contenido": {
+        "pregunta": "Si te dieran $100.000 extra hoy, ¿qué harías?",
+        "imagen_key": "Minijuego1 0.3",
+        "opciones": [
+          {
+            "id": "ahorro",
+            "texto": "Ahorro",
+            "respuesta_personalizada": "Ahorrar es una forma inteligente de usar tu dinero. Te permite tener un colchón para emergencias o cumplir metas.\n\nSi ahorras con frecuencia, estás construyendo una base sólida para tu bienestar financiero."
+          },
+          {
+            "id": "inversion",
+            "texto": "Inversión",
+            "respuesta_personalizada": "Invertir es pensar a largo plazo. Aunque puede tener riesgos, es una forma poderosa de hacer crecer tu dinero.\n\nEs clave que antes de invertir, tengas tus bases financieras cubiertas: ahorro, control de gastos y metas claras."
+          },
+          {
+            "id": "gasto",
+            "texto": "Gasto",
+            "respuesta_personalizada": "Gastar no es malo. A veces lo mereces. Pero si lo haces sin pensar, tu plata se esfuma.\n\nLa clave está en decidir con intención: ¿este gasto me acerca o me aleja de mis metas?"
+          }
+        ]
+      },
+      "_nota": "Minijuego1_0.3: el usuario selecciona una de las 3 opciones (ahorro, inversion, gasto) tocando áreas invisibles sobre íconos en la imagen 'Minijuego1 0.3'. La elección determina el texto del paso 3 (case 2). No hay respuesta incorrecta. Los textos de respuesta_personalizada provienen de la función textoParaEleccion() en Leccion3Nivel0.swift."
+    },
+    {
+      "paso_id": 3,
+      "tipo": "explanation",
+      "contenido": {
+        "texto_principal": "VARIABLE_SEGUN_ELECCION",
+        "subtitulo": "",
+        "imagen_key": "toroExplicacion",
+        "texto_boton": "Continuar",
+        "cuerpo": "VARIABLE_SEGUN_ELECCION"
+      },
+      "_nota": "Este paso es dinámico: el título y cuerpo dependen de la elección del paso anterior (case 1). Variante ahorro: título='¡Buena elección!', cuerpo=['Ahorrar es una forma inteligente de usar tu dinero. Te permite tener un colchón para emergencias o cumplir metas.', 'Si ahorras con frecuencia, estás construyendo una base sólida para tu bienestar financiero.']. Variante inversion: título='¡Piensas en grande!', cuerpo=['Invertir es pensar a largo plazo. Aunque puede tener riesgos, es una forma poderosa de hacer crecer tu dinero.', 'Es clave que antes de invertir, tengas tus bases financieras cubiertas: ahorro, control de gastos y metas claras.']. Variante gasto: título='¡Todo bien, pero ojo!', cuerpo=['Gastar no es malo. A veces lo mereces. Pero si lo haces sin pensar, tu plata se esfuma.', 'La clave está en decidir con intención: ¿este gasto me acerca o me aleja de mis metas?']. El frontend debería renderizar esto basado en la elección guardada del paso 2.",
+      "contenido_variantes": {
+        "ahorro": {
+          "texto_principal": "¡Buena elección!",
+          "subtitulo": "",
+          "imagen_key": "toroExplicacion",
+          "texto_boton": "Continuar",
+          "cuerpo": [
+            "Ahorrar es una forma inteligente de usar tu dinero. Te permite tener un colchón para emergencias o cumplir metas.",
+            "Si ahorras con frecuencia, estás construyendo una base sólida para tu bienestar financiero."
+          ]
+        },
+        "inversion": {
+          "texto_principal": "¡Piensas en grande!",
+          "subtitulo": "",
+          "imagen_key": "toroExplicacion",
+          "texto_boton": "Continuar",
+          "cuerpo": [
+            "Invertir es pensar a largo plazo. Aunque puede tener riesgos, es una forma poderosa de hacer crecer tu dinero.",
+            "Es clave que antes de invertir, tengas tus bases financieras cubiertas: ahorro, control de gastos y metas claras."
+          ]
+        },
+        "gasto": {
+          "texto_principal": "¡Todo bien, pero ojo!",
+          "subtitulo": "",
+          "imagen_key": "toroExplicacion",
+          "texto_boton": "Continuar",
+          "cuerpo": [
+            "Gastar no es malo. A veces lo mereces. Pero si lo haces sin pensar, tu plata se esfuma.",
+            "La clave está en decidir con intención: ¿este gasto me acerca o me aleja de mis metas?"
+          ]
+        }
+      }
+    },
+    {
+      "paso_id": 4,
+      "tipo": "memory_match",
+      "contenido": {
+        "instruccion": "Encuentra las parejas",
+        "pares": [
+          {
+            "id": "par_ahorro",
+            "carta_a": { "label": "Ahorro (icono)", "imagen_key": "CartaAhorroIcono" },
+            "carta_b": { "label": "Ahorro (texto)", "imagen_key": "CartaAhorroTexto" }
+          },
+          {
+            "id": "par_inversion",
+            "carta_a": { "label": "Inversión (icono)", "imagen_key": "CartaInversionIcono" },
+            "carta_b": { "label": "Inversión (texto)", "imagen_key": "CartaInversionTexto" }
+          },
+          {
+            "id": "par_gasto",
+            "carta_a": { "label": "Gasto (icono)", "imagen_key": "CartaGastoIcono" },
+            "carta_b": { "label": "Gasto (texto)", "imagen_key": "CartaGastoTexto" }
+          },
+          {
+            "id": "par_deuda",
+            "carta_a": { "label": "Deuda (icono)", "imagen_key": "CartaDeudaIcono" },
+            "carta_b": { "label": "Deuda (texto)", "imagen_key": "CartaDeudaTexto" }
+          },
+          {
+            "id": "par_impuesto",
+            "carta_a": { "label": "Impuesto (icono)", "imagen_key": "CartaImpuestoIcono" },
+            "carta_b": { "label": "Impuesto (texto)", "imagen_key": "CartaImpuestoTexto" }
+          }
+        ],
+        "fondo_key": "Minijuego2 0.3",
+        "reverso_key": "ReversoCartaEZ",
+        "transicion_key": "TriviaEZLogo",
+        "validation_notes": "Se muestran 10 cartas (5 pares) mezcladas aleatoriamente. El usuario selecciona 2 cartas. Si comparten el mismo parejaID son pareja correcta y desaparecen. Si no son pareja, se muestran brevemente y se voltean. El juego termina cuando todos los pares son encontrados. No hay respuesta incorrecta permanente: el usuario siempre puede reintentar."
+      }
+    },
+    {
+      "paso_id": 5,
+      "tipo": "multiple_choice",
+      "contenido": {
+        "pregunta": "¿Qué significa ahorro?",
+        "imagen_key": "Trivia1 0.3",
+        "opciones": [
+          { "id": "op1", "texto": "Dejar de usar el dinero en el presente con la esperanza de que crezca en el futuro" },
+          { "id": "op2", "texto": "Pagar el arriendo" },
+          { "id": "op3", "texto": "No usar todo mi dinero hoy para poder usarlo después" }
+        ],
+        "correct_id": "op3",
+        "feedback_correcto": "¡Ya estás pensando como alguien que controla su plata!",
+        "feedback_incorrecto": "Mmm… esa no era, ¡pero vas bien!"
+      }
+    },
+    {
+      "paso_id": 6,
+      "tipo": "multiple_choice",
+      "contenido": {
+        "pregunta": "¿Cuál de estos ejemplos es un gasto impulsivo?",
+        "imagen_key": "Trivia2 0.3",
+        "opciones": [
+          { "id": "op1", "texto": "Pagar el recibo del agua" },
+          { "id": "op2", "texto": "Comprar snacks en la tienda “porque sí”" },
+          { "id": "op3", "texto": "Recargar tu celular prepago" }
+        ],
+        "correct_id": "op2",
+        "feedback_correcto": "¡Ya estás pensando como alguien que controla su plata!",
+        "feedback_incorrecto": "Mmm… esa no era, ¡pero vas bien!"
+      }
+    },
+    {
+      "paso_id": 7,
+      "tipo": "multiple_choice",
+      "contenido": {
+        "pregunta": "¿Cuál es una ventaja de invertir tu dinero?",
+        "imagen_key": "Trivia3 0.3",
+        "opciones": [
+          { "id": "op1", "texto": " Que se queda guardado sin moverse en tu cuenta" },
+          { "id": "op2", "texto": "Que puede crecer con el tiempo y darte más ganancias" },
+          { "id": "op3", "texto": "Que ya no necesitas ahorrar nunca más" }
+        ],
+        "correct_id": "op2",
+        "feedback_correcto": "¡Ya estás pensando como alguien que controla su plata!",
+        "feedback_incorrecto": "Mmm… esa no era, ¡pero vas bien!"
+      },
+      "_nota": "El texto de la opción 1 tiene un espacio inicial en el Swift original: ' Que se queda guardado sin moverse en tu cuenta'. Preservado verbatim."
+    },
+    {
+      "paso_id": 8,
+      "tipo": "multiple_choice",
+      "contenido": {
+        "pregunta": "¿Cuál es un gasto variable?",
+        "imagen_key": "Triva4 0.3",
+        "opciones": [
+          { "id": "op1", "texto": "Comida en restaurante" },
+          { "id": "op2", "texto": "Pago del arriendo" },
+          { "id": "op3", "texto": "Recibo de agua" }
+        ],
+        "correct_id": "op1",
+        "feedback_correcto": "¡Ya estás pensando como alguien que controla su plata!",
+        "feedback_incorrecto": "Mmm… esa no era, ¡pero vas bien!"
+      },
+      "_nota": "El nombre del asset en el Swift original es 'Triva4 0.3' (sin la 'i' en Trivia). Preservado verbatim tal como aparece en el código."
+    },
+    {
+      "paso_id": 9,
+      "tipo": "multiple_choice",
+      "contenido": {
+        "pregunta": "¿Cuál es la función de los impuestos?",
+        "imagen_key": "Trivia5 0.3",
+        "opciones": [
+          { "id": "op1", "texto": "Ayudar al gobierno a prestar servicios" },
+          { "id": "op2", "texto": "Castigar a los trabajadores" },
+          { "id": "op3", "texto": "Aumentar tus deudas" }
+        ],
+        "correct_id": "op1",
+        "feedback_correcto": "¡Ya estás pensando como alguien que controla su plata!",
+        "feedback_incorrecto": "Mmm… esa no era, ¡pero vas bien!"
+      }
+    },
+    {
+      "paso_id": 10,
+      "tipo": "achievement",
+      "contenido": {
+        "titulo": "¡LO LOGRASTE!",
+        "mensaje": "Ya diste tu primer paso para entender cómo funciona el dinero\n\nNo se trata de saberlo todo, sino de pensar con intención. Y eso ya lo estás haciendo.\n\n¡Vamos por la siguiente lección!",
+        "imagen_key": "ToroLogro",
+        "texto_boton": "CONTINUAR"
+      }
+    }
+  ]
+}
