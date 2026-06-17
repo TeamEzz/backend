@@ -52,9 +52,17 @@ Si el schema inicial no captura correctamente un tipo de interacción (estructur
 - [ ] Campo `version` en cada lección (permite evolución no breaking con campos opcionales)
 - [ ] Review manual del schema contra CADA paso de CADA lección antes de aprobar Fase 0
 
-**Mitigaciones aplicadas:** *(completar durante implementación)*  
-**Probabilidad residual:** —  
-**Evaluación post-implementación:** —
+**Mitigaciones aplicadas:** 🔄 EN CURSO (Fase 1 completada 2026-06-17)
+- ✅ Campo `version` implementado en el modelo `Leccion` (Integer, default=1) — evolución no-breaking garantizada
+- ✅ Campo `contenido` es JSONB puro: el frontend puede agregar campos opcionales sin romper decodificación existente
+- ✅ Schema de los 10 tipos documentado y auditado por schema-review-agent antes del seeding
+- ⏳ `schema-lint-agent` y `renderer-prototype-agent` pendientes para Fase 2 (frontend)
+- ⚠️ Item pendiente: verificar `drag_drop.accepts_item_id` singular vs. plural al leer SlideMinijuego2.swift
+
+**Advertencia de uso (Fase 1):** El campo `contenido` en la BD es JSONB sin validación de esquema a nivel de PostgreSQL. Si se inserta un JSON malformado (ej. tipo de interacción desconocido), la tabla lo acepta pero el frontend crasheará al decodificar. El seeding-agent + seeding-review-agent son la única barrera de calidad pre-inserción.
+
+**Probabilidad residual:** Media → Baja (schema definido; riesgo residual en seeding quality)  
+**Evaluación post-implementación:** Pendiente post-seeding y Fase 2
 
 ---
 
@@ -76,9 +84,14 @@ La validación de respuestas correctas está actualmente implícita en código S
 - [ ] Para drag_drop y memory_match: test manual de cada par/target antes de seeding final
 - [ ] Los hotfixes de contenido JSON no requieren App Store submit (ventaja clave del server-driven approach)
 
-**Mitigaciones aplicadas:** *(completar durante implementación)*  
-**Probabilidad residual:** —  
-**Evaluación post-implementación:** —
+**Mitigaciones aplicadas:** ⏳ PENDIENTE — se aplica en Fase 1 seeding (próximo paso)
+- ✅ Infraestructura lista: `seeds/lecciones/` y `seeds/review/` creados y commiteados
+- ✅ Agentes listos: `seeding-agent.md` y `seeding-review-agent.md` configurados con checklist de validación
+- ✅ Campo `validation_notes` en el schema del seeding-agent (documenta regla en lenguaje natural)
+- ⏳ Loop seeding-agent / seeding-review-agent: ejecutar cuando el seeding comience
+
+**Probabilidad residual:** Media (hasta que el loop seeding/review esté completo)  
+**Evaluación post-implementación:** Pendiente post-seeding
 
 ---
 
@@ -125,9 +138,15 @@ Los IDs 1-4 (Nivel 0) están hardcodeados en el frontend y en la tabla `progreso
 - [ ] La tabla `lecciones` usa `id SERIAL` con insert explícito, no `GENERATED ALWAYS AS IDENTITY`
 - [ ] Verificar conteo de registros `progreso_leccion` antes y después del seeding
 
-**Mitigaciones aplicadas:** *(completar durante implementación)*  
-**Probabilidad residual:** —  
-**Evaluación post-implementación:** —
+**Mitigaciones aplicadas:** ✅ COMPLETADO (Fase 1, 2026-06-17)
+- ✅ `id = Column(Integer, primary_key=True, autoincrement=False)` — no SERIAL, no IDENTITY
+- ✅ Migración #7 (`b2e7f1d4c9a0`) escrita manualmente con `autoincrement=False` — ningún ORM puede auto-generar IDs
+- ✅ Los JSON que producirá el seeding-agent tienen IDs explícitos 1-4 (hardcoded en el seeding-agent prompt)
+- ✅ `INSERT ... ON CONFLICT (id) DO UPDATE` en el script de seeding → idempotente
+- ⏳ Verificar conteo post-seeding: pendiente cuando se ejecute el seeding
+
+**Probabilidad residual:** Baja — la arquitectura hace imposible un ID auto-generado  
+**Evaluación post-implementación:** ✅ Controlado. Riesgo residual solo en error humano al editar los JSON manualmente.
 
 ---
 
@@ -148,9 +167,14 @@ Los IDs 1-4 (Nivel 0) están hardcodeados en el frontend y en la tabla `progreso
 - [ ] La FK de progreso_leccion → lecciones es NULLABLE en esta fase (no obligatoria)
 - [ ] Test de integration: completar una lección vía API y verificar que streak se actualiza
 
-**Mitigaciones aplicadas:** *(completar durante implementación)*  
-**Probabilidad residual:** —  
-**Evaluación post-implementación:** —
+**Mitigaciones aplicadas:** ✅ COMPLETADO (Fase 1, 2026-06-17)
+- ✅ `progreso_routes.py` y `ProgresoLeccion` intactos — no se tocaron en ningún commit
+- ✅ No se añadió FK entre `lecciones` y `progreso_leccion` en la migración #7 — leccion_id en progreso_leccion sigue siendo Integer libre
+- ✅ La nueva tabla `lecciones` es completamente independiente de la lógica de streaks
+- ⏳ Test de integration: pendiente post-deploy
+
+**Probabilidad residual:** Muy Baja — la arquitectura mantiene separación total entre contenido y progreso  
+**Evaluación post-implementación:** ✅ Controlado en esta fase.
 
 ---
 
