@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from datetime import datetime
 from typing import List, Optional
 
@@ -9,8 +9,7 @@ class MensajeSchema(BaseModel):
     contenido: str
     timestamp: Optional[datetime] = None
 
-    class Config:
-        orm_mode = True  # permite convertir desde objetos SQLAlchemy
+    model_config = ConfigDict(from_attributes=True)  # permite convertir desde objetos SQLAlchemy
 
 # 🔹 Esquema de conversación
 class ConversacionSchema(BaseModel):
@@ -21,5 +20,4 @@ class ConversacionSchema(BaseModel):
     fecha_ultima_actualizacion: Optional[datetime] = None
     mensajes: List[MensajeSchema] = []
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)

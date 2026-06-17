@@ -14,7 +14,9 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-SECRET_KEY = os.getenv("SECRET_KEY", "tu_clave_secreta_super_segura")
+SECRET_KEY = os.getenv("SECRET_KEY")
+if not SECRET_KEY:
+    raise RuntimeError("SECRET_KEY no está configurada en el entorno")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 10080 
 
@@ -34,7 +36,7 @@ def verificar_token(token: str) -> dict:
         raise HTTPException(status_code=401, detail="Token expirado")
     except JWTError as e:
         # firma inválida / token mal formado
-        print("❌ Error al verificar token:", e)
+        logger.error("Error al verificar token: %s", e)
         raise HTTPException(status_code=401, detail="Token inválido")
 
 def get_current_user(
@@ -53,20 +55,15 @@ def get_current_user(
     user_id = datos["id"]
     user_email = datos["sub"]
 
-    print("🧾 ID del token:", user_id)
-    print("📧 Email del token:", user_email)
-
     user = db.query(Usuario).filter(Usuario.id == user_id).first()
     if user is None:
-        print("❌ Usuario no encontrado en base de datos")
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
 
     if user.email != user_email:
         logger.info(
-            "El email almacenado (%s) no coincide con el presente en el token (%s)",
-            user.email,
-            user_email,
+            "El email almacenado (%s***) no coincide con el presente en el token (%s***)",
+            user.email[:3],
+            user_email[:3],
         )
 
-    print("✅ Usuario autenticado:", user)
     return user

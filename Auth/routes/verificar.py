@@ -72,7 +72,7 @@ def verificar_codigo(datos: VerificacionRequest, db: Session = Depends(get_db)):
 
 
 @router.post("/reenviar-codigo")
-def reenviar_codigo(datos: ReenviarCodigoRequest, db: Session = Depends(get_db)):
+async def reenviar_codigo(datos: ReenviarCodigoRequest, db: Session = Depends(get_db)):
     mensaje_generico = {"mensaje": "Si la cuenta existe y está sin verificar, te enviamos un nuevo código."}
 
     usuario = db.query(Usuario).filter(Usuario.email == datos.email).first()
@@ -95,7 +95,7 @@ def reenviar_codigo(datos: ReenviarCodigoRequest, db: Session = Depends(get_db))
     db.commit()
 
     try:
-        enviar_codigo(usuario.email, codigo, tipo="verificacion")
+        await enviar_codigo(usuario.email, codigo, tipo="verificacion")
     except RuntimeError as exc:
         raise HTTPException(status_code=502, detail=f"No se pudo enviar el correo de verificación: {exc}")
 

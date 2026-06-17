@@ -21,6 +21,10 @@ class Usuario(Base):
     codigo_enviado_en = Column(DateTime(timezone=True), nullable=True)  # para cooldown de reenvío
     codigo_intentos = Column(Integer, nullable=False, server_default="0")
 
+    # borrado de cuenta (soft delete + anonimización irreversible — App Store 5.1.1 / GDPR)
+    deleted_at = Column(DateTime(timezone=True), nullable=True)
+    anonymized = Column(Boolean, nullable=False, server_default="false")
+
     # timestamps
     creado_en = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     actualizado_en = Column(

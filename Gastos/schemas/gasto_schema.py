@@ -1,9 +1,9 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Optional
 from datetime import datetime
 
 class GastoBase(BaseModel):
-    categoria: str  # Ej: 'Alimentación'
+    categoria: str = Field(max_length=50)  # Ej: 'Alimentación'
     monto: float    # Ej: 25000.0
     tipo: str       # Ej: 'necesario', 'impulsivo', etc.
 

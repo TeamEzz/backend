@@ -1,10 +1,10 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 
 class NombreUpdate(BaseModel):
-    nombre: str
+    nombre: str = Field(max_length=50)
 
 class UsernameUpdate(BaseModel):
-    nombre_usuario: str
+    nombre_usuario: str = Field(max_length=50)
 
 class EmailUpdate(BaseModel):
     email: EmailStr

@@ -11,4 +11,7 @@ python-jose
 passlib[bcrypt]==1.7.4
 google-auth
 requests
+httpx
+slowapi
+sentry-sdk
 bcrypt==4.0.1

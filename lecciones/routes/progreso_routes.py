@@ -1,4 +1,6 @@
 # lecciones/routes/progreso_routes.py
+import logging
+
 from fastapi import APIRouter, Depends, HTTPException, Path
 from sqlalchemy.orm import Session
 from datetime import datetime, timezone
@@ -13,6 +15,8 @@ from lecciones.schemas.progreso_schemas import (
     ProgresoLeccionResponse,
 )
 from streaks.utils.streak_utils import update_streak
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
@@ -65,9 +69,10 @@ def marcar_como_completada(
 
         return progreso
 
-    except Exception as e:
+    except Exception:
         db.rollback()
-        raise HTTPException(status_code=500, detail=f"Error al completar lección: {e}")
+        logger.exception("Error al completar lección")
+        raise HTTPException(status_code=500, detail="Error interno")
 
 @router.post("/progreso/marcar", response_model=ProgresoLeccionResponse)
 def marcar_leccion_progreso(
@@ -106,6 +111,7 @@ def marcar_leccion_progreso(
 
         return progreso
 
-    except Exception as e:
+    except Exception:
         db.rollback()
-        raise HTTPException(status_code=500, detail=f"Error al marcar progreso: {e}")
+        logger.exception("Error al marcar progreso")
+        raise HTTPException(status_code=500, detail="Error interno")

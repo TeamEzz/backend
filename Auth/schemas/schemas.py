@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, ConfigDict
+from pydantic import BaseModel, EmailStr, ConfigDict, Field
 from typing import Optional
 
 class UsuarioRegistro(BaseModel):
@@ -8,11 +8,11 @@ class UsuarioRegistro(BaseModel):
 
 class UsuarioRegistroSimple(BaseModel):
     email: EmailStr
-    password: str
-    
+    password: str = Field(min_length=8, max_length=72)  # max 72 = límite de bcrypt
+
 class UsuarioLogin(BaseModel):
     email: EmailStr
-    password: str
+    password: str = Field(max_length=72)  # solo max (no min, para no bloquear cuentas existentes)
     
 
 class UsuarioRespuesta(BaseModel):
@@ -47,7 +47,7 @@ class RegistroPendienteResponse(BaseModel):
 
 class VerificacionRequest(BaseModel):
     email: EmailStr
-    codigo: str
+    codigo: str = Field(pattern=r"^\d{6}$")  # exactamente 6 dígitos
 
 
 class ReenviarCodigoRequest(BaseModel):
@@ -62,8 +62,8 @@ class RecuperacionRequest(BaseModel):
 
 class VerificarRecuperacionRequest(BaseModel):
     email: EmailStr
-    codigo: str
-    nueva_contrasena: str
+    codigo: str = Field(pattern=r"^\d{6}$")  # exactamente 6 dígitos
+    nueva_contrasena: str = Field(min_length=8, max_length=72)  # max 72 = límite de bcrypt
 
 
 class UsuarioLoginResponse(BaseModel):

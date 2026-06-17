@@ -1,3 +1,5 @@
+import logging
+
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from json import dumps
@@ -8,6 +10,8 @@ from database.models.encuesta_model import RespuestaEncuestaDB
 from database.db import get_db  # ✅ usa el get_db centralizado
 from Auth.utils.jwt_utils import get_current_user  # ✅ toma el usuario del Bearer token
 from database.models.user_model import Usuario
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/encuesta", tags=["Encuesta"])
 
@@ -55,6 +59,7 @@ def responder_encuesta(
     except HTTPException:
         # No hagas rollback en errores intencionales
         raise
-    except Exception as e:
+    except Exception:
         db.rollback()
-        raise HTTPException(status_code=400, detail=f"Error procesando encuesta: {str(e)}")
+        logger.exception("Error procesando encuesta")
+        raise HTTPException(status_code=400, detail="Error interno")

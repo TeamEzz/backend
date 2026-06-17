@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 from Auth.schemas.schemas import UsuarioLogin, UsuarioLoginResponse
 from database.db import get_db
@@ -6,11 +6,13 @@ from database.models.user_model import Usuario
 from Auth.utils.password_utils import verify_password
 from Auth.utils.jwt_utils import crear_token
 from database.models.encuesta_model import RespuestaEncuestaDB  # 👈 Asegúrate que esto es correcto
+from limiter import limiter
 
 router = APIRouter()
 
 @router.post("/login", response_model=UsuarioLoginResponse)
-def login(usuario: UsuarioLogin, db: Session = Depends(get_db)):
+@limiter.limit("5/15minutes")  # anti brute-force por IP
+def login(request: Request, usuario: UsuarioLogin, db: Session = Depends(get_db)):
     db_usuario = db.query(Usuario).filter(Usuario.email == usuario.email).first()
     if not db_usuario or not verify_password(usuario.password, db_usuario.hashed_password):
         raise HTTPException(status_code=401, detail="Credenciales incorrectas")
