@@ -6,15 +6,15 @@
   "descripcion": "Distingue entre gastos necesarios, deseos e impulsivos, y entre fijos y variables.",
   "duracion_minutos": 8,
   "imagen_portada_key": "Leccion 0.2",
-  "version": 1,
+  "version": 2,
   "pasos": [
     {
       "paso_id": 1,
       "tipo": "explanation",
       "contenido": {
-        "texto_principal": "Conoce tus gastos: el primer paso para dominarlos",
-        "subtitulo": null,
-        "imagen_key": "Intro 0.2",
+        "texto_principal": "¿Sabes en qué se te va la plata?",
+        "subtitulo": "Vamos a descubrirlo.",
+        "imagen_key": "toro_con_lupa",
         "texto_boton": "EMPEZAR"
       }
     },
@@ -22,120 +22,222 @@
       "paso_id": 2,
       "tipo": "explanation",
       "contenido": {
-        "texto_principal": "Tus gastos no son todos iguales",
-        "subtitulo": null,
-        "imagen_key": "ToroExplicacion2",
-        "texto_boton": "Continuar",
-        "cuerpo": [
-          "Cada vez que gastas, eliges entre lo que necesitas, lo que deseas y… lo que simplemente se te antojó en el momento.",
-          "Saber distinguir entre estos tres tipos te ayuda a que tu dinero alcance para lo importante y no se pierda en caprichos.",
-          "Prepárate, detective: vamos a descubrir en qué se te va la plata."
-        ]
+        "texto_principal": "Existen 3 tipos de gastos",
+        "subtitulo": "Necesario — Lo que necesitas para vivir y funcionar\nDeseo — Lo que quieres pero podrías vivir sin ello\nImpulsivo — Lo que compraste sin planearlo",
+        "imagen_key": null,
+        "texto_boton": "ENTENDIDO, JUGUEMOS"
       }
     },
     {
       "paso_id": 3,
       "tipo": "card_classification",
       "contenido": {
-        "instruccion": "Selecciona el tablero al que pertenece cada gasto",
+        "modo": "one_at_a_time",
+        "instruccion": "Arrastra cada gasto a su categoría",
         "cards": [
-          { "id": "carta_ahorros", "label": "Ahorros", "imagen_key": "CartaAhorros 0.2" },
-          { "id": "carta_vacaciones", "label": "Vacaciones", "imagen_key": "CartaVacaciones 0.2" },
-          { "id": "carta_ropa", "label": "Ropa", "imagen_key": "CartaRopa 0.2" },
-          { "id": "carta_casa", "label": "Casa", "imagen_key": "CartaCasa 0.2" },
-          { "id": "carta_snacks", "label": "Snacks", "imagen_key": "CartaSnacks 0.2" },
-          { "id": "carta_taxi", "label": "Taxi", "imagen_key": "CartaTaxi 0.2" }
+          {
+            "id": "arriendo",
+            "label": "Arriendo",
+            "imagen_key": "L2_gasto_arriendo",
+            "categoria_correcta": "nec",
+            "feedback_ok": "Exacto. Sin techo no hay plan.",
+            "feedback_no": "El arriendo no es opcional — eso es necesario."
+          },
+          {
+            "id": "streaming",
+            "label": "Netflix",
+            "imagen_key": "L2_gasto_streaming",
+            "categoria_correcta": "des",
+            "feedback_ok": "Bien. Netflix es rico, pero se vive sin él.",
+            "feedback_no": "Netflix es un deseo, no lo necesitas para vivir."
+          },
+          {
+            "id": "medicamento",
+            "label": "Medicamento",
+            "imagen_key": "L2_gasto_medicamento",
+            "categoria_correcta": "nec",
+            "feedback_ok": "Correcto. Tu salud va primero.",
+            "feedback_no": "Un medicamento es necesario — tu salud no se negocia."
+          },
+          {
+            "id": "ropa",
+            "label": "Ropa que no necesitabas",
+            "imagen_key": "L2_gasto_ropa",
+            "categoria_correcta": "imp",
+            "feedback_ok": "¡Eso! Comprada sin pensarlo = impulsivo.",
+            "feedback_no": "Si no la necesitabas, fue una compra impulsiva."
+          },
+          {
+            "id": "mercado",
+            "label": "Mercado semanal",
+            "imagen_key": "L2_gasto_mercado",
+            "categoria_correcta": "nec",
+            "feedback_ok": "Sí. Comer entra en lo necesario.",
+            "feedback_no": "El mercado es necesario — hay que comer."
+          },
+          {
+            "id": "restaurante",
+            "label": "Salida a comer",
+            "imagen_key": "L2_gasto_restaurante",
+            "categoria_correcta": "des",
+            "feedback_ok": "Bien visto. Salir a comer es un gusto.",
+            "feedback_no": "Salir a comer es un deseo, no una necesidad."
+          },
+          {
+            "id": "snacks",
+            "label": "Snack en la caja",
+            "imagen_key": "L2_gasto_snacks",
+            "categoria_correcta": "imp",
+            "feedback_ok": "¡Clásico! El antojo de la caja es puro impulso.",
+            "feedback_no": "Ese snack lo cogiste sin planearlo — impulsivo."
+          },
+          {
+            "id": "transporte",
+            "label": "Transporte al trabajo",
+            "imagen_key": "L2_gasto_transporte",
+            "categoria_correcta": "nec",
+            "feedback_ok": "Correcto. Llegar al trabajo es necesario.",
+            "feedback_no": "El transporte al trabajo es necesario, sí o sí."
+          }
         ],
         "categories": [
           {
-            "id": "necesario",
-            "label": "Necesario",
+            "id": "nec",
+            "label": "NECESARIO",
             "color_key": "necesario",
-            "correct_card_ids": ["carta_ahorros", "carta_casa"]
+            "correct_card_ids": ["arriendo", "medicamento", "mercado", "transporte"]
           },
           {
-            "id": "deseo",
-            "label": "Deseo",
+            "id": "des",
+            "label": "DESEO",
             "color_key": "deseo",
-            "correct_card_ids": ["carta_vacaciones", "carta_ropa"]
+            "correct_card_ids": ["streaming", "restaurante"]
           },
           {
-            "id": "impulsivo",
-            "label": "Impulsivo",
+            "id": "imp",
+            "label": "IMPULSIVO",
             "color_key": "impulsivo",
-            "correct_card_ids": ["carta_snacks", "carta_taxi"]
+            "correct_card_ids": ["ropa", "snacks"]
           }
-        ],
-        "fondo_key": "Minijuego1 0.2",
-        "feedback_incorrecto": "¡Intenta otra vez!",
-        "validation_notes": "El usuario clasifica las cartas de una en una arrastrándolas al tablero. Solo avanza si la clasificación es correcta (verifica seleccion == actual.tipoCorrecto). Si es incorrecta, la carta regresa a su posición original y se muestra el mensaje de error. Se clasifican las 6 cartas en orden."
+        ]
       }
     },
     {
       "paso_id": 4,
       "tipo": "explanation",
       "contenido": {
-        "texto_principal": "Detective de gastos",
-        "subtitulo": null,
-        "imagen_key": "ToroExplicacion2",
-        "texto_boton": "Continuar",
-        "cuerpo": [
-          "Esta es una de las habilidades más importantes para dominar tu plata: reconocer qué es esencial, qué puedes permitirte… y qué solo es un capricho.",
-          "Cuanto mejor los distingas, más fácil será ahorrar y usar tu dinero con propósito."
-        ]
+        "texto_principal": "Los impulsivos son los más peligrosos.",
+        "subtitulo": "Los compraste sin pensarlo — y eso es lo que más daña tu bolsillo.",
+        "imagen_key": "toro_bombillo",
+        "texto_boton": "CONTINUAR"
       }
     },
     {
       "paso_id": 5,
-      "tipo": "grid_classification",
+      "tipo": "explanation",
       "contenido": {
-        "instruccion": "Clasifica los gastos",
-        "items": [
-          { "id": "carta_netflix", "label": "Netflix", "imagen_key": "CartaNetflix 0.2" },
-          { "id": "carta_restaurante", "label": "Restaurante", "imagen_key": "CartaRestaurante 0.2" },
-          { "id": "carta_luz", "label": "Luz", "imagen_key": "CartaLuz 0.2" },
-          { "id": "carta_gasolina", "label": "Gasolina", "imagen_key": "CartaGasolina 0.2" }
-        ],
-        "columns": [
-          {
-            "id": "fijo",
-            "label": "Fijo",
-            "correct_item_ids": ["carta_netflix", "carta_luz"]
-          },
-          {
-            "id": "variable",
-            "label": "Variable",
-            "correct_item_ids": ["carta_restaurante", "carta_gasolina"]
-          }
-        ],
-        "fondo_key": "Fondo2 0.2",
-        "feedback_incorrecto": "¡Intenta de nuevo!",
-        "validation_notes": "El usuario clasifica las cartas de una en una eligiendo la columna (fijo o variable). Solo avanza si la clasificación es correcta (seleccion == actual.tipoCorrecto). Si es incorrecta, la carta regresa y aparece el mensaje de error. Se clasifican las 4 cartas en orden: CartaNetflix, CartaRestaurante, CartaLuz, CartaGasolina."
+        "texto_principal": "Ahora, otra forma de verlos",
+        "subtitulo": "Fijo — El mismo monto todos los meses, pase lo que pase\nVariable — Cambia según tus decisiones y hábitos",
+        "imagen_key": null,
+        "texto_boton": "ENTENDIDO"
       }
     },
     {
       "paso_id": 6,
-      "tipo": "explanation",
+      "tipo": "card_classification",
       "contenido": {
-        "texto_principal": "¡Así quedó tu investigación!",
-        "subtitulo": "",
-        "imagen_key": "toroExplicacion",
-        "texto_boton": "Continuar",
-        "cuerpo": [
-          "Acabas de separar tus gastos en fijos y variables, tal como se hace en la vida real.",
-          "Los que pusiste en fijo son los que debes pagar todos los meses sí o sí (como la luz).",
-          "Los que pusiste en variable son más flexibles y dependen de tus decisiones (como comer en un restaurante).",
-          "Esta distinción es clave para saber en qué puedes ajustar cuando quieres ahorrar."
+        "modo": "one_at_a_time",
+        "instruccion": "¿Fijo o variable?",
+        "cards": [
+          {
+            "id": "arriendo2",
+            "label": "Arriendo",
+            "imagen_key": "L2_gasto_arriendo",
+            "categoria_correcta": "fijo",
+            "feedback_ok": "Sí. El mismo monto cada mes.",
+            "feedback_no": "El arriendo es fijo — siempre lo mismo."
+          },
+          {
+            "id": "restaurante2",
+            "label": "Salidas",
+            "imagen_key": "L2_gasto_restaurante",
+            "categoria_correcta": "var",
+            "feedback_ok": "Eso. Tú decides cuánto sales.",
+            "feedback_no": "Las salidas son variables — cambian según tú."
+          },
+          {
+            "id": "streaming2",
+            "label": "Netflix",
+            "imagen_key": "L2_gasto_streaming",
+            "categoria_correcta": "fijo",
+            "feedback_ok": "Correcto. Mismo cobro cada mes.",
+            "feedback_no": "Netflix es fijo — te cobran igual siempre."
+          },
+          {
+            "id": "mercado2",
+            "label": "Mercado",
+            "imagen_key": "L2_gasto_mercado",
+            "categoria_correcta": "var",
+            "feedback_ok": "Bien. Unas semanas gastas más que otras.",
+            "feedback_no": "El mercado es variable — cambia cada semana."
+          },
+          {
+            "id": "gym",
+            "label": "Gimnasio",
+            "imagen_key": "L2_gasto_gym",
+            "categoria_correcta": "fijo",
+            "feedback_ok": "Sí. La mensualidad no se mueve.",
+            "feedback_no": "El gimnasio es fijo — mensualidad constante."
+          },
+          {
+            "id": "ropa2",
+            "label": "Ropa",
+            "imagen_key": "L2_gasto_ropa",
+            "categoria_correcta": "var",
+            "feedback_ok": "Eso. Compras ropa cuando quieres.",
+            "feedback_no": "La ropa es variable — depende de ti."
+          }
+        ],
+        "categories": [
+          {
+            "id": "fijo",
+            "label": "FIJO",
+            "color_key": "fijo",
+            "correct_card_ids": ["arriendo2", "streaming2", "gym"]
+          },
+          {
+            "id": "var",
+            "label": "VARIABLE",
+            "color_key": "variable",
+            "correct_card_ids": ["restaurante2", "mercado2", "ropa2"]
+          }
         ]
       }
     },
     {
       "paso_id": 7,
+      "tipo": "multiple_choice",
+      "contenido": {
+        "pregunta": "¿En qué tipo de gasto puedes ajustar para ahorrar más?",
+        "imagen_key": "toro_profesor",
+        "opciones": [
+          { "id": "fijo",      "texto": "Fijo" },
+          { "id": "variable",  "texto": "Variable" },
+          { "id": "necesario", "texto": "Necesario" },
+          { "id": "impulsivo", "texto": "Impulsivo" }
+        ],
+        "correct_id": "variable",
+        "feedback_correcto": "Exacto. Los variables son tu palanca de ahorro.",
+        "feedback_incorrecto": "Los variables cambian según tus decisiones — ahí está tu margen."
+      }
+    },
+    {
+      "paso_id": 8,
       "tipo": "achievement",
       "contenido": {
         "titulo": "¡LO LOGRASTE!",
-        "mensaje": "Ya diste tu primer paso para entender cómo funciona el dinero\n\nNo se trata de saberlo todo, sino de pensar con intención. Y eso ya lo estás haciendo.\n\n¡Vamos por la siguiente lección!",
-        "imagen_key": "ToroLogro",
+        "mensaje": "Ahora sabes clasificar tus gastos. Ese conocimiento vale más de lo que crees.",
+        "imagen_key": "toro_celebrando",
         "texto_boton": "CONTINUAR"
       }
     }

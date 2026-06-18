@@ -30,7 +30,18 @@ def obtener_leccion(
     )
     if not leccion:
         raise HTTPException(status_code=404, detail="Lección no encontrada")
-    return leccion
+    return LeccionContenidoResponse(
+        id=leccion.id,
+        nivel=leccion.nivel,
+        orden=leccion.orden,
+        titulo=leccion.titulo,
+        descripcion=leccion.descripcion,
+        duracion_minutos=leccion.duracion_minutos,
+        imagen_portada_key=leccion.imagen_portada_key,
+        activa=leccion.activa,
+        version=leccion.version,
+        pasos=leccion.contenido.get("pasos", []),
+    )
 
 
 @router.get("", response_model=list[LeccionMetadataResponse])

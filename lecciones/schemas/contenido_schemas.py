@@ -22,6 +22,6 @@ class LeccionMetadataResponse(BaseModel):
 
 
 class LeccionContenidoResponse(LeccionMetadataResponse):
-    """Lección completa con campo contenido (JSONB) incluido."""
+    """Lección completa con pasos extraídos del JSONB."""
 
-    contenido: Any  # Se pasa el JSONB tal cual desde la base de datos
+    pasos: list  # Extraído de contenido["pasos"] — coincide con el modelo iOS LeccionContenido
