@@ -28,7 +28,7 @@ def instrumento(horizonte_meses: int) -> Tuple[str, str]:
         return ("CDT",
                 "Certificado de depósito a término. Liquidez y bajo riesgo para metas de corto plazo.")
     if horizonte_meses < 36:
-        return ("TES — Títulos de Tesorería",
+        return ("TES (Títulos de Tesorería)",
                 "Renta fija del Estado colombiano. Bajo riesgo y rendimiento estable a tu plazo.")
     if horizonte_meses < 84:
         return ("Mix TES + ETF conservador",
