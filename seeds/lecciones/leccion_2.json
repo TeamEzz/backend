@@ -41,7 +41,7 @@
             "imagen_key": "L2_gasto_arriendo",
             "categoria_correcta": "nec",
             "feedback_ok": "Exacto. Sin techo no hay plan.",
-            "feedback_no": "El arriendo no es opcional — eso es necesario."
+            "feedback_no": "El arriendo no es opcional, eso es necesario."
           },
           {
             "id": "streaming",
@@ -57,7 +57,7 @@
             "imagen_key": "L2_gasto_medicamento",
             "categoria_correcta": "nec",
             "feedback_ok": "Correcto. Tu salud va primero.",
-            "feedback_no": "Un medicamento es necesario — tu salud no se negocia."
+            "feedback_no": "Un medicamento es necesario, tu salud no se negocia."
           },
           {
             "id": "ropa",
@@ -73,7 +73,7 @@
             "imagen_key": "L2_gasto_mercado",
             "categoria_correcta": "nec",
             "feedback_ok": "Sí. Comer entra en lo necesario.",
-            "feedback_no": "El mercado es necesario — hay que comer."
+            "feedback_no": "El mercado es necesario, hay que comer."
           },
           {
             "id": "restaurante",
@@ -89,7 +89,7 @@
             "imagen_key": "L2_gasto_snacks",
             "categoria_correcta": "imp",
             "feedback_ok": "¡Clásico! El antojo de la caja es puro impulso.",
-            "feedback_no": "Ese snack lo cogiste sin planearlo — impulsivo."
+            "feedback_no": "Ese snack lo cogiste sin planearlo, puro impulso."
           },
           {
             "id": "transporte",
@@ -155,7 +155,7 @@
             "imagen_key": "L2_gasto_arriendo",
             "categoria_correcta": "fijo",
             "feedback_ok": "Sí. El mismo monto cada mes.",
-            "feedback_no": "El arriendo es fijo — siempre lo mismo."
+            "feedback_no": "El arriendo es fijo, siempre lo mismo."
           },
           {
             "id": "restaurante2",
@@ -163,7 +163,7 @@
             "imagen_key": "L2_gasto_restaurante",
             "categoria_correcta": "var",
             "feedback_ok": "Eso. Tú decides cuánto sales.",
-            "feedback_no": "Las salidas son variables — cambian según tú."
+            "feedback_no": "Las salidas son variables, cambian según tú."
           },
           {
             "id": "streaming2",
@@ -171,7 +171,7 @@
             "imagen_key": "L2_gasto_streaming",
             "categoria_correcta": "fijo",
             "feedback_ok": "Correcto. Mismo cobro cada mes.",
-            "feedback_no": "Netflix es fijo — te cobran igual siempre."
+            "feedback_no": "Netflix es fijo, te cobran igual siempre."
           },
           {
             "id": "mercado2",
@@ -179,7 +179,7 @@
             "imagen_key": "L2_gasto_mercado",
             "categoria_correcta": "var",
             "feedback_ok": "Bien. Unas semanas gastas más que otras.",
-            "feedback_no": "El mercado es variable — cambia cada semana."
+            "feedback_no": "El mercado es variable, cambia cada semana."
           },
           {
             "id": "gym",
@@ -187,7 +187,7 @@
             "imagen_key": "L2_gasto_gym",
             "categoria_correcta": "fijo",
             "feedback_ok": "Sí. La mensualidad no se mueve.",
-            "feedback_no": "El gimnasio es fijo — mensualidad constante."
+            "feedback_no": "El gimnasio es fijo, mensualidad constante."
           },
           {
             "id": "ropa2",
@@ -195,7 +195,7 @@
             "imagen_key": "L2_gasto_ropa",
             "categoria_correcta": "var",
             "feedback_ok": "Eso. Compras ropa cuando quieres.",
-            "feedback_no": "La ropa es variable — depende de ti."
+            "feedback_no": "La ropa es variable, depende de ti."
           }
         ],
         "categories": [

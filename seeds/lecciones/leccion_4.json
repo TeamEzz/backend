@@ -2,240 +2,288 @@
   "id": 4,
   "nivel": 0,
   "orden": 4,
-  "titulo": "Importancia de la educación financiera",
+  "titulo": "La gran pregunta",
   "descripcion": "Descubre por qué aprender sobre finanzas puede cambiar tu historia.",
   "duracion_minutos": 8,
   "imagen_portada_key": "Leccion 0.4",
-  "version": 1,
+  "version": 2,
   "pasos": [
     {
       "paso_id": 1,
       "tipo": "explanation",
       "contenido": {
-        "texto_principal": "Saber de finanzas es para quienes quieren cambiar su historia",
-        "subtitulo": null,
-        "imagen_key": "Fondo 0.4",
-        "texto_boton": "EMPEZAR",
-        "texto_secundario": "¿Estás listo para encontrar tu porqué?"
+        "texto_principal": "Dos toros ganan exactamente lo mismo.",
+        "subtitulo": "Diez años después, uno vive tranquilo y el otro no duerme por las deudas.\n\n¿Qué los separó?",
+        "imagen_key": "toro_pensativo",
+        "texto_boton": null
       }
     },
     {
       "paso_id": 2,
-      "tipo": "explanation",
+      "tipo": "character_intro",
       "contenido": {
-        "texto_principal": "Estoy aquí para escucharte, responde honestamente",
-        "subtitulo": null,
-        "imagen_key": "Toro psicologo",
-        "texto_boton": "Continuar",
-        "texto_secundario": "¿Estás listo?"
-      },
-      "_nota": "Slide1_04: muestra el texto 'Estoy aquí para escucharte, responde honestamente' en un banner de cabecera, la imagen 'Toro psicologo', el texto '¿Estás listo?' en texto grande, y un botón 'Continuar'. No usa imagen de fondo sino color darkBlue."
+        "titulo": "Mismo trabajo. Mismo sueldo.",
+        "descripcion": "Bula y Toriel ganan $1.000.000 al mes. Lo único distinto: cómo deciden usar su plata.",
+        "personajes": [
+          {
+            "id": "bula",
+            "nombre": "Bula",
+            "descripcion": "Aprende, planea, decide con cabeza fría.",
+            "imagen_key": "bula_title",
+            "accent_key": "bula"
+          },
+          {
+            "id": "toriel",
+            "nombre": "Toriel",
+            "descripcion": "Gasta por impulso, vive el momento.",
+            "imagen_key": "toriel_title",
+            "accent_key": "toriel"
+          }
+        ]
+      }
     },
     {
       "paso_id": 3,
-      "tipo": "motivational_choice",
+      "tipo": "decision_sequence",
       "contenido": {
-        "pregunta": "¿Estás dispuesto a dedicar unos minutos al día para aprender a manejar tu plata?",
-        "imagen_key": "Toro psicologo",
-        "opciones": [
+        "eyebrow": "MINIJUEGO · EL MISMO MILLÓN",
+        "decisiones": [
           {
-            "id": "si",
-            "texto": "Sí",
-            "respuesta_personalizada": "¡Eso es! Unos minutos al día pueden cambiar años de tu vida. Vamos a hacerlo simple y útil"
+            "pregunta": "Te acaban de pagar el sueldo. ¿Qué haces de primero?",
+            "opciones": [
+              {
+                "id": "buena",
+                "texto": "Aparto una parte para ahorrar",
+                "es_buena": true,
+                "feedback_titulo": "¡Ese es el truco!",
+                "feedback_texto": "Pagarte a ti primero es el hábito #1 de quien construye plata.",
+                "toro_key": "toro_thumbs_up"
+              },
+              {
+                "id": "mala",
+                "texto": "Salgo a celebrar, me lo gané",
+                "es_buena": false,
+                "feedback_titulo": "Ojo con eso",
+                "feedback_texto": "Celebrar está bien, pero sin un plan el mes se hace cortico.",
+                "toro_key": "toro_pensativo"
+              }
+            ]
           },
           {
-            "id": "no",
-            "texto": "No",
-            "respuesta_personalizada": "Entiendo que a veces hay otras prioridades… pero cuidar tu plata es cuidar tu vida. Quizás más adelante te animes."
+            "pregunta": "Se te dañó el celular. Hay uno nuevo a 24 cuotas.",
+            "opciones": [
+              {
+                "id": "buena",
+                "texto": "Comparo precios y arreglo el mío",
+                "es_buena": true,
+                "feedback_titulo": "Bien pensado",
+                "feedback_texto": "Antes de endeudarte, mira si lo que tienes todavía sirve.",
+                "toro_key": "toro_con_lupa"
+              },
+              {
+                "id": "mala",
+                "texto": "24 cuotas, ¡es poquito al mes!",
+                "es_buena": false,
+                "feedback_titulo": "Cuidado",
+                "feedback_texto": "24 cuotas con intereses = terminas pagando casi el doble.",
+                "toro_key": "toro_preocupado"
+              }
+            ]
           },
           {
-            "id": "no_seguro",
-            "texto": "No estoy seguro",
-            "respuesta_personalizada": "Está bien dudar. Pero créeme, no necesitas horas: solo ganas de mejorar. Vamos paso a paso."
+            "pregunta": "\"SALE −50%\" en ropa que no necesitas. ¿Caes?",
+            "opciones": [
+              {
+                "id": "buena",
+                "texto": "Sigo de largo, no la necesito",
+                "es_buena": true,
+                "feedback_titulo": "Frío como debe ser",
+                "feedback_texto": "Lo barato no es ahorro si no lo ibas a comprar.",
+                "toro_key": "toro_satisfecho"
+              },
+              {
+                "id": "mala",
+                "texto": "Aprovecho, está regalada",
+                "es_buena": false,
+                "feedback_titulo": "Mmm…",
+                "feedback_texto": "Gastar $50.000 \"con descuento\" sigue siendo gastar $50.000.",
+                "toro_key": "toro_con_billetes"
+              }
+            ]
+          },
+          {
+            "pregunta": "Te sobra plata a fin de mes. ¿Para dónde va?",
+            "opciones": [
+              {
+                "id": "buena",
+                "texto": "A mi fondo de emergencia",
+                "es_buena": true,
+                "feedback_titulo": "¡Eso es visión!",
+                "feedback_texto": "Un colchón te salva el día que algo salga mal. Y siempre sale.",
+                "toro_key": "toro_con_alcancia"
+              },
+              {
+                "id": "mala",
+                "texto": "A otra salida con los parces",
+                "es_buena": false,
+                "feedback_titulo": "Tranqui, pero…",
+                "feedback_texto": "Disfrutar sí, pero primero asegúrate el respaldo.",
+                "toro_key": "toro_pensativo"
+              }
+            ]
+          },
+          {
+            "pregunta": "Un conocido te ofrece \"duplicar tu plata en una semana\".",
+            "opciones": [
+              {
+                "id": "buena",
+                "texto": "Suena raro, investigo primero",
+                "es_buena": true,
+                "feedback_titulo": "Olfato fino",
+                "feedback_texto": "Si promete mucho y rápido, casi siempre es estafa.",
+                "toro_key": "toro_con_lupa"
+              },
+              {
+                "id": "mala",
+                "texto": "Meto todo, ¡no me lo pierdo!",
+                "es_buena": false,
+                "feedback_titulo": "Uff, no",
+                "feedback_texto": "Así es como mucha gente pierde sus ahorros de años.",
+                "toro_key": "toro_estresado"
+              }
+            ]
+          },
+          {
+            "pregunta": "¿Cada cuánto revisas en qué se te va la plata?",
+            "opciones": [
+              {
+                "id": "buena",
+                "texto": "Lo anoto, sé a dónde va cada peso",
+                "es_buena": true,
+                "feedback_titulo": "¡Crack!",
+                "feedback_texto": "Lo que mides, lo controlas. Ahí empieza todo.",
+                "toro_key": "toro_con_grafica"
+              },
+              {
+                "id": "mala",
+                "texto": "Ni idea, simplemente desaparece",
+                "es_buena": false,
+                "feedback_titulo": "Pasa mucho",
+                "feedback_texto": "Lo que no se mide, se escapa. Por eso esta lección importa.",
+                "toro_key": "toro_sorprendido"
+              }
+            ]
           }
         ]
       }
     },
     {
       "paso_id": 4,
-      "tipo": "motivational_choice",
+      "tipo": "explanation",
       "contenido": {
-        "pregunta": " ¿Alguna vez te has sentido perdido con tus finanzas?",
-        "imagen_key": "Toro psicologo",
-        "opciones": [
-          {
-            "id": "si",
-            "texto": "Sí",
-            "respuesta_personalizada": "No eres el único. ¡Justo por eso estamos aquí! Aprender sobre dinero no debería dar miedo."
-          },
-          {
-            "id": "no",
-            "texto": "No",
-            "respuesta_personalizada": "¡Eso es bueno! Aun así, siempre se puede mejorar o ayudar a alguien más con lo que aprendes."
-          },
-          {
-            "id": "no_seguro",
-            "texto": "No estoy seguro",
-            "respuesta_personalizada": "A veces uno se acostumbra a vivir con dudas. Pero si alguna vez te ha dolido no saber, aquí vamos a cambiar eso."
-          }
-        ]
-      },
-      "_nota": "La pregunta en el Swift original tiene un espacio inicial: ' ¿Alguna vez te has sentido perdido con tus finanzas?'. Preservado verbatim."
+        "texto_principal": "Una decisión no cambia tu vida.",
+        "subtitulo": "Pero miles de decisiones, repetidas durante años, sí. Mira lo que pasó con Bula y Toriel.",
+        "imagen_key": "toro_bombillo",
+        "texto_boton": "VER SUS VIDAS"
+      }
     },
     {
       "paso_id": 5,
-      "tipo": "motivational_choice",
+      "tipo": "character_story",
       "contenido": {
-        "pregunta": "¿Te gustaría tomar decisiones con más confianza?",
-        "imagen_key": "Toro psicologo",
-        "opciones": [
+        "personaje_a_key": "bula",
+        "personaje_b_key": "toriel",
+        "stages": [
           {
-            "id": "si",
-            "texto": "Sí",
-            "respuesta_personalizada": "¡Esa es la actitud! No se trata de saberlo todo, sino de entender lo que haces con tu plata."
+            "tiempo": "Día de pago",
+            "imagen_a_key": "bula_sueldo",
+            "texto_a": "A Bula le pagan $1.000.000.",
+            "imagen_b_key": "toriel_sueldo",
+            "texto_b": "A Toriel le pagan lo mismo: $1.000.000.",
+            "riqueza_a": 0.50,
+            "riqueza_b": 0.50
           },
           {
-            "id": "no",
-            "texto": "No",
-            "respuesta_personalizada": "Está bien. Pero recuerda: quien entiende su dinero, elige mejor su camino."
+            "tiempo": "Esa misma semana",
+            "imagen_a_key": "bula_presupuesto",
+            "texto_a": "Hace un plan. Aparta $200.000 antes de gastar.",
+            "imagen_b_key": "toriel_compras",
+            "texto_b": "Sale a estrenar. Tarjeta, antojos, \"me lo merezco\".",
+            "riqueza_a": 0.62,
+            "riqueza_b": 0.38
           },
           {
-            "id": "no_seguro",
-            "texto": "No estoy seguro",
-            "respuesta_personalizada": "A veces uno no sabe si va por buen camino. Aprender te da claridad. Y esa claridad… vale oro."
+            "tiempo": "6 meses después",
+            "imagen_a_key": "bula_metas",
+            "texto_a": "Tiene metas claras y un fondo de emergencia.",
+            "imagen_b_key": "toriel_estres",
+            "texto_b": "Llegan las cuotas. Las deudas se acumulan.",
+            "riqueza_a": 0.78,
+            "riqueza_b": 0.24
+          },
+          {
+            "tiempo": "Años después",
+            "imagen_a_key": "bula_familia",
+            "texto_a": "Vive tranquilo. Invirtió en lo que importa.",
+            "imagen_b_key": "toriel_noche",
+            "texto_b": "Sigue corriendo detrás de los pagos.",
+            "riqueza_a": 0.95,
+            "riqueza_b": 0.10
           }
         ]
       }
     },
     {
       "paso_id": 6,
-      "tipo": "motivational_choice",
+      "tipo": "multiple_choice",
       "contenido": {
-        "pregunta": "¿Sientes que tus decisiones con el dinero te acercan a tus metas?",
-        "imagen_key": "Toro psicologo",
+        "pregunta": "Bula y Toriel ganaban lo mismo. ¿Qué los separó de verdad?",
+        "imagen_key": "toro_con_lupa",
         "opciones": [
-          {
-            "id": "si",
-            "texto": "Sí",
-            "respuesta_personalizada": "¡Eso está genial! A veces solo hace falta ver tus logros con claridad. Sigamos reforzando ese camino."
-          },
-          {
-            "id": "no",
-            "texto": "No",
-            "respuesta_personalizada": "Vamos a descubrirlo juntos. A veces solo hace falta una luz para ver mejor el camino."
-          },
-          {
-            "id": "no_seguro",
-            "texto": "No estoy seguro",
-            "respuesta_personalizada": "No pasa nada. Entender bien tus decisiones te va a ayudar a alinear tu dinero con tus sueños."
-          }
-        ]
+          { "id": "op1", "texto": "La suerte" },
+          { "id": "op2", "texto": "Las decisiones del día a día" },
+          { "id": "op3", "texto": "Que a uno le pagaban más" }
+        ],
+        "correct_id": "op2",
+        "feedback_correcto": "¡Exacto! No fue el sueldo. Fue qué hicieron con él, cada día.",
+        "feedback_incorrecto": "En realidad fue cómo decidieron usar su plata, día tras día."
       }
     },
     {
       "paso_id": 7,
-      "tipo": "motivational_choice",
+      "tipo": "multiple_choice",
       "contenido": {
-        "pregunta": "¿Te gustaría que tu dinero trabaje para ti y no al revés?",
-        "imagen_key": "Toro psicologo",
+        "pregunta": "Entonces, ¿para qué sirve la educación financiera?",
+        "imagen_key": "toro_con_lupa",
         "opciones": [
-          {
-            "id": "si",
-            "texto": "Sí",
-            "respuesta_personalizada": "Esa es la mentalidad de un toro. Vamos a enseñarte a usar bien tu plata para que te dé libertad."
-          },
-          {
-            "id": "no",
-            "texto": "No",
-            "respuesta_personalizada": "Está bien, suena ambicioso. Pero aquí vamos paso a paso, desde lo básico hasta lo brutal."
-          },
-          {
-            "id": "no_seguro",
-            "texto": "No estoy seguro",
-            "respuesta_personalizada": "No todos saben lo que eso significa al principio. Pero te lo voy a mostrar… y te va a encantar."
-          }
-        ]
+          { "id": "op1", "texto": "Para volverte rico de la noche a la mañana" },
+          { "id": "op2", "texto": "Para decidir mejor con lo que ya tienes" },
+          { "id": "op3", "texto": "Solo para gente con mucha plata" }
+        ],
+        "correct_id": "op2",
+        "feedback_correcto": "Ese es el punto de toda esta lección.",
+        "feedback_incorrecto": "No es magia ni es solo para ricos: es decidir mejor con lo que tienes."
       }
     },
     {
       "paso_id": 8,
       "tipo": "explanation",
       "contenido": {
-        "texto_principal": "Gracias por responder, espero ayudarte a cumplir todas tus metas financieras",
-        "subtitulo": null,
-        "imagen_key": "Toro psicologo",
-        "texto_boton": "Continuar"
-      },
-      "_nota": "Slide3_04: muestra la imagen 'Toro psicologo' y el texto 'Gracias por responder, espero ayudarte a cumplir todas tus metas financieras' con un botón 'Continuar'. No usa imagen de fondo sino color darkBlue."
+        "texto_principal": "La educación financiera no te hace ganar más.",
+        "subtitulo": "Te enseña a decidir mejor con la que ya tienes.\n\nEso fue lo que hizo a Bula imparable. Y tú acabas de dar el primer paso.",
+        "imagen_key": "toro_profesor",
+        "texto_boton": "RECLAMAR MI LOGRO"
+      }
     },
     {
       "paso_id": 9,
-      "tipo": "icon_grid_selection",
-      "contenido": {
-        "instruccion": "¿Qué sueñas lograr?",
-        "subtitulo": "Soñar no cuesta, pero cumplirlo sí requiere estrategia. ¡Vamos por eso!",
-        "opciones": [
-          { "id": "avion", "icon_key": "✈️", "label": "Viajes" },
-          { "id": "casa", "icon_key": "🏠", "label": "Casa" },
-          { "id": "educacion", "icon_key": "🎓", "label": "Educación" },
-          { "id": "dinero", "icon_key": "💰", "label": "Dinero" },
-          { "id": "tarjeta", "icon_key": "💳", "label": "Crédito" },
-          { "id": "acuerdo", "icon_key": "🤝", "label": "Acuerdo" },
-          { "id": "salud", "icon_key": "🏥", "label": "Salud" },
-          { "id": "anillo", "icon_key": "💍", "label": "Matrimonio" },
-          { "id": "playa", "icon_key": "🏖️", "label": "Vacaciones" }
-        ],
-        "correct_ids": [],
-        "min_selection": 0,
-        "max_selection": 9,
-        "feedback_correcto": "¡Excelente!\n\nCuando terminemos estarás un paso más cerca de conseguirlos. No se trata del resultado, sino de ser un poco mejor cada día.",
-        "feedback_incorrecto": null,
-        "imagen_mascota": "ToroFeliz",
-        "texto_boton": "Continuar"
-      },
-      "_nota": "Slide4_04: grid de emojis (3x3) donde el usuario selecciona sus sueños/metas financieras. No hay respuesta correcta — cualquier selección es válida. Los icon_key son emojis directamente (no assets de imagen). Al presionar Continuar aparece un mensaje motivacional del toro. Los emojis del Swift son: fila1=[✈️,🏠,🎓], fila2=[💰,💳,🤝], fila3=[🏥,💍,🏖️]."
-    },
-    {
-      "paso_id": 10,
-      "tipo": "image_carousel",
-      "contenido": {
-        "instruccion": "Toca la pantalla para continuar con la historia",
-        "items": [
-          {
-            "imagen_key": "Portadas 0.4",
-            "caption": "Haz clic cuando quieras continuar con las historias"
-          },
-          {
-            "imagen_key": "Escena1 0.4",
-            "caption": "Dos toros. Mismo ingreso. Sueños diferentes. ¿Qué camino tomarías tú?"
-          },
-          {
-            "imagen_key": "Escena2 0.4",
-            "caption": "No es cuánto ganas. Es cómo eliges usarlo."
-          },
-          {
-            "imagen_key": "Escena3 0.4",
-            "caption": "10 años después... Cada decisión diaria construye tu futuro. A veces sin que lo notes."
-          },
-          {
-            "imagen_key": "Escena4 0.4",
-            "caption": "20 años después... Los dos tuvieron sueños. Solo uno aprendió a dirigir su dinero."
-          }
-        ],
-        "mensaje_final": "El camino a la libertad financiera no es sencillo, pero sí es posible.\n\nNo se trata de ganar más, sino de aprender a decidir mejor. Y con cada paso que das aquí… ya estás cambiando tu historia.",
-        "mascota_final": "ToroFeliz",
-        "texto_boton": "Continuar"
-      },
-      "_nota": "HistoriaInteractiva (SlideHistoria 0.4.swift): el usuario avanza tocando la pantalla. Después de la última escena aparece el toro (ToroFeliz) con un globo de diálogo con el mensaje_final. El avance es tap-to-continue, no un carrusel con navegación libre."
-    },
-    {
-      "paso_id": 11,
       "tipo": "achievement",
       "contenido": {
-        "titulo": "¡LO LOGRASTE!",
-        "mensaje": "Ya diste tu primer paso para entender cómo funciona el dinero\n\nNo se trata de saberlo todo, sino de pensar con intención. Y eso ya lo estás haciendo.\n\n¡Vamos por la siguiente lección!",
-        "imagen_key": "ToroLogro",
-        "texto_boton": "CONTINUAR"
+        "titulo": "EL EFECTO BULA",
+        "mensaje": "Entendiste que tu futuro no lo define cuánto ganas, sino cómo decides.\n\nLa bola de nieve ya está rodando.",
+        "imagen_key": "toro_con_trofeo",
+        "texto_boton": "CONTINUAR",
+        "badge_key": "badge_efecto_bula"
       }
     }
   ]
