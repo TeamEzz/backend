@@ -35,7 +35,7 @@ UPSERT_SQL = text("""
          imagen_portada_key, activa, version, contenido)
     VALUES
         (:id, :nivel, :orden, :titulo, :descripcion, :duracion_minutos,
-         :imagen_portada_key, :activa, :version, :contenido::jsonb)
+         :imagen_portada_key, :activa, :version, CAST(:contenido AS JSONB))
     ON CONFLICT (id) DO UPDATE SET
         nivel              = EXCLUDED.nivel,
         orden              = EXCLUDED.orden,
