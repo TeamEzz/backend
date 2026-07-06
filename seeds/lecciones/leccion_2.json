@@ -6,7 +6,7 @@
   "descripcion": "Distingue entre gastos necesarios, deseos e impulsivos, y entre fijos y variables.",
   "duracion_minutos": 8,
   "imagen_portada_key": "Leccion 0.2",
-  "version": 2,
+  "version": 3,
   "pasos": [
     {
       "paso_id": 1,
@@ -23,9 +23,14 @@
       "tipo": "explanation",
       "contenido": {
         "texto_principal": "Existen 3 tipos de gastos",
-        "subtitulo": "Necesario — Lo que necesitas para vivir y funcionar\nDeseo — Lo que quieres pero podrías vivir sin ello\nImpulsivo — Lo que compraste sin planearlo",
+        "subtitulo": null,
         "imagen_key": null,
-        "texto_boton": "ENTENDIDO, JUGUEMOS"
+        "texto_boton": "ENTENDIDO, JUGUEMOS",
+        "categorias": [
+          { "titulo": "NECESARIO", "subtitulo": "Lo que necesitas para vivir y funcionar", "color_key": "necesario" },
+          { "titulo": "DESEO", "subtitulo": "Lo que quieres pero podrías vivir sin ello", "color_key": "deseo" },
+          { "titulo": "IMPULSIVO", "subtitulo": "Lo que compraste sin planearlo", "color_key": "impulsivo" }
+        ]
       }
     },
     {
@@ -137,9 +142,13 @@
       "tipo": "explanation",
       "contenido": {
         "texto_principal": "Ahora, otra forma de verlos",
-        "subtitulo": "Fijo — El mismo monto todos los meses, pase lo que pase\nVariable — Cambia según tus decisiones y hábitos",
+        "subtitulo": null,
         "imagen_key": null,
-        "texto_boton": "ENTENDIDO"
+        "texto_boton": "ENTENDIDO",
+        "categorias": [
+          { "titulo": "FIJO", "subtitulo": "El mismo monto todos los meses, pase lo que pase", "color_key": "fijo" },
+          { "titulo": "VARIABLE", "subtitulo": "Cambia según tus decisiones y hábitos", "color_key": "variable" }
+        ]
       }
     },
     {

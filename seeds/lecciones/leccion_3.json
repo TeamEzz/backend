@@ -6,7 +6,7 @@
   "descripcion": "Aprende los términos financieros clave: ahorro, inversión, gastos, deuda e impuestos.",
   "duracion_minutos": 8,
   "imagen_portada_key": "Leccion 0.3",
-  "version": 2,
+  "version": 3,
   "pasos": [
     {
       "paso_id": 1,
@@ -107,6 +107,16 @@
     },
     {
       "paso_id": 6,
+      "tipo": "explanation",
+      "contenido": {
+        "texto_principal": "✦ TRIVIA EZ",
+        "subtitulo": "¿Pusiste atención? Demuéstralo con 4 preguntas rápidas.",
+        "imagen_key": "toro_con_lupa",
+        "texto_boton": "¡VAMOS!"
+      }
+    },
+    {
+      "paso_id": 7,
       "tipo": "multiple_choice",
       "contenido": {
         "pregunta": "¿Qué significa ahorrar?",
@@ -124,7 +134,7 @@
       }
     },
     {
-      "paso_id": 7,
+      "paso_id": 8,
       "tipo": "multiple_choice",
       "contenido": {
         "pregunta": "¿Qué es una inversión?",
@@ -142,7 +152,7 @@
       }
     },
     {
-      "paso_id": 8,
+      "paso_id": 9,
       "tipo": "multiple_choice",
       "contenido": {
         "pregunta": "¿Qué son los impuestos?",
@@ -160,7 +170,7 @@
       }
     },
     {
-      "paso_id": 9,
+      "paso_id": 10,
       "tipo": "multiple_choice",
       "contenido": {
         "pregunta": "¿Qué hace una cuenta de ahorro?",
@@ -178,7 +188,7 @@
       }
     },
     {
-      "paso_id": 10,
+      "paso_id": 11,
       "tipo": "achievement",
       "contenido": {
         "titulo": "¡MI PRIMER DICCIONARIO!",
